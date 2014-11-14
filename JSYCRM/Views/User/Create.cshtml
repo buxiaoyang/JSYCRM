@@ -1,0 +1,120 @@
+﻿@{
+    ViewBag.Title = "新建用户";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Docs nav ================================================== -->
+<div class="page-header">
+    <h4>新建用户</h4>
+</div>
+<div class="row">
+    <div class="span12">
+        @if (ViewBag.message != null)
+        { 
+            @Html.Partial("_OperaMessage", new {ViewBag.message})   
+        }
+        <form action="~/User/Create" method="post">
+            <table class="table" border="0" cellspacing="1" cellpadding="0">
+                <tfoot>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>
+                            <input class="btn btn-primary" name="submit" type="submit" value="保存">
+                            &nbsp;
+                            <input class="btn btn" type="button" onclick="javascript: history.go(-1)" value="返回">
+
+                        </td>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    <tr>
+                        <td class="tdleft">账号&nbsp;<span style="color: red; font-weight:bold;">*</span></td>
+                        <td>
+                            <input type="text" name="USER_CD" value="">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">密码&nbsp;<span style="color: red; font-weight:bold;">*</span></td>
+                        <td>
+                            <input type="password" name="PASSWORD"   value="">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">重复密码&nbsp;<span style="color: red; font-weight:bold;">*</span></td>
+                        <td>
+                            <input type="password" name="PASSWORD_RE"   value="">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">用户名&nbsp;<span style="color: red; font-weight:bold;">*</span></td>
+                        <td>
+                            <input type="text" name="LAST_NAME"   value="">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">性别&nbsp;<span style="color: red; font-weight:bold;">*</span></td>
+                        <td>
+                            <input type="radio" name="GENDER" value="男">男
+                            <input type="radio" name="GENDER" value="女">女
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">邮箱&nbsp;<span style="color: red; font-weight:bold;">*</span></td>
+                        <td>
+                            <input type="text" name="EMAIL"   value="">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">座机号码</td>
+                        <td>
+                            <input type="text" name="COMPANY_TEL"   value="">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">手机号码&nbsp;<span style="color: red; font-weight:bold;">*</span></td>
+                        <td>
+                            <input type="text" name="MOBILE_NUM"   value="">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">分公司&nbsp;<span style="color: red; font-weight:bold;">*</span></td>
+                        <td>
+                            <select id="role" name="COMPANY_ID">
+                                @foreach (JSYCRM.Models.z_parameter item in ViewBag.company_list)
+                                { 
+                                   <option value="@item.ID">@item.VALUE</option> 
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">职位&nbsp;<span style="color: red; font-weight:bold;">*</span></td>
+                        <td>
+                            <select id="role" name="POSITION_ID">
+                                @foreach (JSYCRM.Models.z_parameter item in ViewBag.position_list)
+                                { 
+                                   <option value="@item.ID">@item.VALUE</option> 
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">描述</td>
+                        <td>
+                            <textarea name="DESCRIPTION" id="DESCRIPTION" style="width: 400px; height: 100px;"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">系统权限&nbsp;<span style="color: red; font-weight:bold;">*</span></td>
+                        <td>
+                            @foreach (JSYCRM.Models.z_role item in ViewBag.role_list)
+                            { 
+                                <input name="ROLE" type="checkbox" value="@(item.ID)" />@(item.NAME) <text>&nbsp; &nbsp;</text>                            
+                            }
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>

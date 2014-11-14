@@ -1,0 +1,108 @@
+﻿@{
+    ViewBag.Title = "面试信息导入";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style type="text/css">
+.DIVImportResult table
+{
+    border-collapse:collapse;
+    border:none;
+    border-top:1px #000 solid;
+    border-left:1px #000 solid;
+    width:100%;
+}
+
+.DIVImportResult table td
+{
+    border-bottom:1px #000 solid;
+    border-right:1px #000 solid;
+}
+
+.DIVImportResult table th
+{
+    border-bottom:1px #000 solid;
+    border-right:1px #000 solid;
+    background-color:#EFEFEE;
+}
+
+.DIVImportResult .NoteInfromation
+{
+    margin:10px;    
+}
+
+.DIVImportResult span.ImportNewItem
+{
+    background-color:Green;
+    color:White; 
+}
+
+.DIVImportResult span.ImportUpdateItem
+{
+    background-color:Blue;
+    color:White; 
+}
+
+.DIVImportResult span.ImportItemExist
+{
+    background-color:Yellow;
+}
+
+.DIVImportResult span.ImportError
+{
+    background-color:Red;
+    color:White;
+}
+</style>
+
+<div class="page-header" style="border: none; font-size: 14px;">
+    <ul class="nav nav-tabs">
+        <li class="active">
+            <a href="~/ImportWorker/Interview">
+                <img src="~/Images/shangji.png">&nbsp; 面试信息导入</a>
+        </li>
+        <li>
+            <a href="~/ImportWorker/InWork">
+                <img src="~/Images/cares_icon.png">&nbsp; 在职信息导入</a>
+        </li>
+    </ul>
+</div>
+<div class="row">
+    <div class="span12">
+        @if (ViewBag.message != null)
+        { 
+            @Html.Partial("_OperaMessage", new { ViewBag.message })   
+        }
+        <form action="~/ImportWorker/Interview" method="post" enctype="multipart/form-data">
+            <table class="table table-hover">
+                <tbody>
+                    <tr>
+                        <td class="tdleft" width="20%">文件要求:</td>
+                        <td>导入EXCEL文件一定要严格按照规定的格式，注意有选择的数据内容<p>允许类型：XLS(文件总大小不能超过10MB)</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">选择导入文件</td>
+                        <td>
+                            <p id="attachment1">
+                                <input type="file" name="excel"></p>
+                            <p style="color: red">导入文件请务必使用导入时专有数据模版&nbsp;<a href="~/Uploads/template/我的工友导入模板_面试.xls">点击下载</a></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>
+                            <input class="btn btn-primary" type="submit" name="submit" value="导入">
+                            &nbsp;
+                            <input class="btn" onclick="javascript: history.go(-1)" type="button" value="取消"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+        <div class="DIVImportResult">
+                @Html.Raw(ViewBag.ImportResult);
+        </div>
+    </div>
+</div>
+
+

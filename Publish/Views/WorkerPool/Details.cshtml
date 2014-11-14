@@ -1,0 +1,185 @@
+﻿@model JSYCRM.Models.m_worker
+
+@{
+    ViewBag.Title = "工友详情";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Docs nav ================================================== -->
+<div class="page-header">
+    <h4>工友详情(工友信息库)</h4>
+</div>
+<div class="row">
+    <div class="span12">
+        @if (ViewBag.message != null)
+        { 
+            @Html.Partial("_OperaMessage", new { ViewBag.message })   
+        }
+        <form id="form1" action="~/WorkerPool/Create" method="post">
+            <table class="table" width="95%" border="0" cellspacing="1" cellpadding="0">
+                <tbody>
+                    <tr>
+                        <th colspan="4">主要信息</th>
+                    </tr>
+                    <tr>
+                        <td class="tdleft" style="width:15%;" >姓名&nbsp;<span style="color: red; font-weight:bold;">*</span></td>
+                        <td style="width:35%;">
+                            @Html.DisplayFor(model => model.B_NAME)
+                        </td>
+                        <td class="tdleft" style="width:15%;">性别&nbsp;<span style="color: red; font-weight:bold;">*</span></td>
+                        <td style="width:35%;">
+                            @Html.DisplayFor(model => model.B_GENDER)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft" style="width:15%;">联系方式&nbsp;<span style="color: red; font-weight:bold;">*</span></td>
+                        <td style="width:35%;">
+                            @Html.DisplayFor(model => model.B_TEL)
+                        </td>
+                        <td class="tdleft" style="width:15%;">联系地址</td>
+                        <td style="width:35%;">
+                            @Html.DisplayFor(model => model.B_ADDRESS)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft" style="width:15%;">创建地区&nbsp;<span style="color: red; font-weight:bold;">*</span></td>
+                        <td style="width:35%;">
+                            @Html.DisplayFor(model => model.B_CREATE_AREA)
+                        </td>
+                        <td class="tdleft" style="width:15%; display:none;">到期时间&nbsp;<span style="color: red; font-weight:bold;">*</span></td>
+                        <td style="width:35%; display:none;">
+                            @(Model.B_EXPIRY_DATA.ToString("yyyy-MM-dd"))
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft" style="width:15%;">身份证号</td>
+                        <td style="width:35%;">
+                            @Html.DisplayFor(model => model.B_ID_CARD)
+                        </td>
+                        <td class="tdleft" style="width:15%; display:none;">管道</td>
+                        <td style="width:35%; display:none;">
+                            @Html.DisplayFor(model => model.B_ASSOCIATED_USER)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft" style="width:15%;">备注</td>
+                        <td colspan="3">
+                            @Html.Raw(Model.COMMENTS)
+                        </td>
+                    </tr>
+                    <tr style="display:none;">
+                        <th colspan="4">在职信息</th>
+                    </tr>
+                    <tr style="display:none;">
+                        <td class="tdleft">工作地点</td>
+                        <td>
+                            @Html.DisplayFor(model => model.W_WORK_AREA)
+                        </td>
+                        <td class="tdleft">&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr style="display:none;">
+                        <td class="tdleft">是否输送</td>
+                        <td>
+                            @(Model.W_IS_DELIVERY==1?"是":"否")    
+                        </td>
+                        <td class="tdleft">输送日期</td>
+                        <td>
+                            @(Model.W_DELIVERY_DATA == null?"":((DateTime)Model.W_DELIVERY_DATA).ToString("yyyy-MM-dd"))
+                        </td>
+                    </tr>
+                    <tr style="display:none;">
+                        <td class="tdleft">是否通过面试</td>
+                        <td>
+                             @(Model.W_IS_PASS_INTERVIEW==1?"是":"否") 
+                        </td>
+                        <td class="tdleft">通过面试日期</td>
+                        <td>
+                            @(Model.W_INTERVIEW_DATA == null?"":((DateTime)Model.W_INTERVIEW_DATA).ToString("yyyy-MM-dd"))
+                        </td>
+                    </tr>
+                    <tr style="display:none;">
+                        <td class="tdleft">是否报道</td>
+                        <td>
+                             @(Model.W_IS_ONBOARD==1?"是":"否") 
+                        </td>
+                        <td class="tdleft">报道日期</td>
+                        <td>
+                            @(Model.W_ONBOARD_DATA == null?"":((DateTime)Model.W_ONBOARD_DATA).ToString("yyyy-MM-dd"))
+                        </td>
+                    </tr>
+                    <tr style="display:none;">
+                        <td class="tdleft">是否离职</td>
+                        <td>
+                             @(Model.W_IS_RESIGNATION==1?"是":"否") 
+                        </td>
+                        <td class="tdleft">离职日期</td>
+                        <td>
+                            @(Model.W_RESIGNATION_DATA == null?"":((DateTime)Model.W_RESIGNATION_DATA).ToString("yyyy-MM-dd")) 
+                        </td>
+                    </tr>
+                    <tr>
+                        <th colspan="4">附加信息</th>
+                    </tr>
+                    <tr>
+                        <td class="tdleft" style="width:15%;">毕业年份</td>
+                        <td style="width:35%;">
+                            @(Model.A_GRADUATE_DATA == null?"":((DateTime)Model.A_GRADUATE_DATA).ToString("yyyy-MM-dd"))     
+                        </td>
+                        <td class="tdleft" style="width:15%;">户籍</td>
+                        <td style="width:35%;">
+                             @Html.DisplayFor(model => model.A_CENSUS)    
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft" style="width:15%;">学历</td>
+                        <td style="width:35%;">
+                            @Html.DisplayFor(model => model.A_EDU_BACKGROUND)
+                        </td>
+                        <td class="tdleft" style="width:15%;">家庭电话</td>
+                        <td style="width:35%;">
+                            @Html.DisplayFor(model => model.A_HOME_TEL)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft" >家庭地址</td>
+                        <td colspan="3">
+                            @Html.DisplayFor(model => model.A_HOME_ADDRESS)
+                        </td>
+                    </tr>
+                    <tr>
+                        <th colspan="4">历史记录</th>
+                    </tr>
+                    @{
+                        List<JSYCRM.Models.m_worker_history> z_m_worker_history_list = (List<JSYCRM.Models.m_worker_history>)ViewBag.z_m_worker_history_list;
+                        foreach(JSYCRM.Models.m_worker_history model_m_worker_history in z_m_worker_history_list)
+                        {
+                            <tr>
+                                <td class="tdleft" style="width:15%;">@model_m_worker_history.CREATE_USER <br/> @model_m_worker_history.CREATE_DATETIME.ToString("yyyy-MM-dd")</td>
+                                <td colspan="3">
+                                    @Html.Raw(model_m_worker_history.COMMENTS)
+                                </td>
+                            </tr>   
+                        }
+                        if (z_m_worker_history_list.Count == 0)
+                        {
+                            <tr>
+                                <td colspan="4" style="color:red;">
+                                    无记录
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td style="text-align: center;" colspan="4">
+                            <a class="btn btn-primary" href="~/WorkerPool/Edit/@(Model.ID)">编辑</a>&nbsp; 
+                            <a class="btn" href="javascript:history.go(-1)">返回</a>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </form>
+    </div>
+</div>

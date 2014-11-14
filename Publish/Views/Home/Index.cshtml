@@ -1,0 +1,79 @@
+﻿@model IEnumerable<JSYCRM.Models.m_announcement>
+@{
+    ViewBag.Title = "工作台";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="page-header">
+    <h3>
+        <img style="height: 30px;" src="~/Images/working_platform.png">
+        &nbsp;<span>@(ViewBag.model_z_user.LAST_NAME)的工作台</span></h3>
+</div>
+
+<div class="row" id="widgets">
+    <div class="span12">
+        <h4>
+            <img src="~/Images/index_notice.png" style="width: 17.5px;">系统公告</h4>
+        <div style="padding: 10px; font-size: 12px;" class="hero-unit">
+            @{
+                int i=0;
+                foreach (var item in Model)
+                {
+                    i++;
+                <p>
+                    @(i)、<span style="font-size: 14px; color: #@item.TITLE_COLOR">@item.TITLE</span>&nbsp;
+                <img src="~/Images/new.gif">
+                    &nbsp; (更新时间：@item.UPDATE_DATETIME)
+                        <a rel="@(i)" href="javascript:void(0);" id="show@(i)" style="text-decoration: none;" class="pull-right" onclick="javascript:show(@(i));"><i class="icon-search"></i>查看详情</a><a rel="@(i)" href="javascript:void(0);" id="unshow@(i)" style="text-decoration: none;" class="pull-right hide" onclick="javascript:unshow(@(i));"><i class="icon-chevron-up"></i>收起详情</a>
+                </p>
+                <p></p>
+                <div id="detail@(i)" class="hide">@Html.Raw(item.BODY)</div>
+                <p>
+                </p>
+                }
+                if (Model.Count() == 0)
+                {
+                    <p style="color: red;">没有公告</p>
+                }
+            }
+
+        </div>
+        <!--<h3 style="color: #666666;">欢迎使用金硕源CRM!</h3>-->
+    </div>
+</div>
+
+<script type="text/javascript">
+    $('#dialog-message').dialog({
+        autoOpen: false,
+        modal: true,
+        width: 600,
+        maxHeight: 400,
+        position: ["center", 100]
+    });
+
+    $('#dialog-message2').dialog({
+        autoOpen: false,
+        modal: true,
+        width: 600,
+        maxHeight: 400,
+        position: ["center", 100]
+    });
+    $("#dialog-role-info").dialog({
+        autoOpen: false,
+        modal: true,
+        width: 600,
+        maxHeight: 400,
+        position: ["center", 100]
+    });
+    function show(id) {
+        $("#detail" + id).show();
+        $("#show" + id).hide();
+        $("#unshow" + id).show();
+    }
+    function unshow(id) {
+        $("#detail" + id).hide();
+        $("#unshow" + id).hide();
+        $("#show" + id).show();
+    }
+</script>

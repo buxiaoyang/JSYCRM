@@ -1,0 +1,133 @@
+﻿@{
+    ViewBag.Title = "返费计算";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-header" style="border: none; font-size: 14px;">
+    <ul class="nav nav-tabs">
+        <li>
+            <a href="~/Payment/Index">
+                <img src="~/Images/analytics_icon.png">&nbsp; 工友统计</a>
+        </li>
+        <li class="active">
+            <a href="~/Payment/Calculate">
+                <img src="~/Images/yingshoukuan.png">&nbsp; 返费计算</a>
+        </li>
+        <li>
+            <a href="~/Payment/Setting">
+                <img src="~/Images/fukuandan.png">&nbsp; 返费规则</a>
+        </li>
+    </ul>
+</div>
+@if (ViewBag.message != null)
+{ 
+    @Html.Partial("_OperaMessage", new { ViewBag.message })   
+}
+<div class="row">
+    <div class="span12">
+        <ul class="nav pull-left">
+            <li class="pull-left">
+                <form class="form-inline" id="searchForm" action="~/Payment/Calculate" method="get">
+                    <ul class="nav pull-left">
+                        <li class="pull-left">选择工作地点：&nbsp;
+                                <select style="width: auto" name="area" id="area">
+                                    @foreach (JSYCRM.Models.z_parameter item in ViewBag.area_list)
+                                    { 
+                                       <option value="@item.ID" @(ViewBag.area == item.ID.ToString()? "selected='selected'":"") >@item.VALUE</option> 
+                                    }
+                                </select>&nbsp;&nbsp;
+                        </li>
+                        <li class="pull-left">选择分公司：&nbsp;
+                                <select style="width: auto" name="company" id="company">
+                                    @foreach (JSYCRM.Models.z_parameter item in ViewBag.company_list)
+                                    { 
+                                       <option value="@item.ID" @(ViewBag.company == item.ID.ToString()? "selected='selected'":"") >@item.VALUE</option> 
+                                    }
+                                </select>&nbsp;&nbsp;
+                        </li>
+                        <li class="pull-left">
+                            <button type="submit" class="btn">搜索</button></li>
+                    </ul>
+                </form>
+            </li>
+        </ul>
+        <div class="pull-right">
+            <div class="btn-group">
+                <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><i class="icon-wrench"></i>&nbsp; 导入导出<span class="caret"></span></button><ul class="dropdown-menu">
+                    <li><a href="~/Payment/ExportCalculate?area=@(ViewBag.area)&company=@(ViewBag.company)" onclick="return window.confirm(&quot;您确定要导出数据吗 ?&quot;);" class="link"><i class="icon-download"></i>导出数据</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--table-->
+    <div class="span12">
+        <form id="form1" action="" method="post">
+            <table class="table table-hover table-striped">
+                <thead>
+                    <tr id="childNodes_num">
+                        <th>
+                            <input type="checkbox" id="check_all"></th>
+                        <th>姓名</th>
+                        <th>性别</th>
+                        <th>联系方式</th>
+                        <th>联系地址</th>
+                        <th>创建地区</th>
+                        <th>管道</th>
+                        <th>创建时间</th>
+                        <th>当前状态</th>
+                        <th>状态时间</th>
+                        <th>适用规则</th>
+                        <th>返费</th>
+                    </tr>
+                </thead>
+                <tbody>
+                     @{
+                        System.Data.DataTable dtReportChart = (System.Data.DataTable)ViewBag.ReportChart;
+                        for (int i = 0; i < dtReportChart.Rows.Count; i++)
+                        {
+                        <tr>
+                            <td>
+                                <input name="id[]" class="check_list" type="checkbox" value="@(dtReportChart.Rows[i]["ID"])">
+                            </td>
+                            <td>@(dtReportChart.Rows[i]["B_NAME"])</td>
+                            <td>@(dtReportChart.Rows[i]["B_GENDER"])</td>
+                            <td>@(dtReportChart.Rows[i]["B_TEL"])</td>
+                            <td>@(dtReportChart.Rows[i]["B_ADDRESS"])</td>
+                            <td>@(dtReportChart.Rows[i]["B_CREATE_AREA"])</td>
+                            <td>@(dtReportChart.Rows[i]["B_ASSOCIATED_USER"])</td>
+                            <td>@(DateTime.Parse(dtReportChart.Rows[i]["CREATE_DATETIME"].ToString()).ToString("yyyy-MM-dd"))</td>
+                            <td><span>@(JSYCRM.Common.Common.getWorkerStatus(int.Parse(dtReportChart.Rows[i]["STATUS"].ToString())))</span></td>
+                            <td>@(DateTime.Parse(dtReportChart.Rows[i]["STATUS_DATA"].ToString()).ToString("yyyy-MM-dd"))</td>
+                            <td title="@(dtReportChart.Rows[i]["RULE_DETAIL"])">@(dtReportChart.Rows[i]["RULE_NAME"])</td>
+                            @if (dtReportChart.Rows[i]["B_GENDER"].ToString() == "男")
+                            {
+                                <td><b>@(dtReportChart.Rows[i]["FEE_MAN"])</b></td>
+                            }
+                            else if (dtReportChart.Rows[i]["B_GENDER"].ToString() == "女")
+                            {
+                                <td><b>@(dtReportChart.Rows[i]["FEE_WOMEN"])</b></td>
+                            }
+                            else
+                            {
+                                <td><b>0</b></td>
+                            }
+                        </tr>
+                        }
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td id="td_colspan" colspan="12">
+                            <div class="pagination">
+                                <div class="row pagination">
+                                    <div class="span2">共<b>@dtReportChart.Rows.Count</b> 条记录</div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </form>
+    </div>
+    <!--table-->
+</div>

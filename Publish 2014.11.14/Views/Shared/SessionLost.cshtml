@@ -1,0 +1,38 @@
+﻿@{
+    ViewBag.Title = "用户会话丢失";
+    Layout = "~/Views/Shared/_LayoutBasic.cshtml";
+}
+
+<style type="text/css">
+    .container
+    {
+        width: 400px;
+    }
+</style>
+<legend>
+    <h3>操作失败！</h3>
+</legend>
+<div class="alert alert-error">用户会话丢失！</div>
+<p class="jump">页面自动 <a id="href" href="~/Account/Login">跳转</a> 等待时间： <b id="wait">3</b></p>
+<div class="row-fluid wukong">
+    <div class="span3">
+        <img src="~/Images/logo.png" class="logo" alt="金硕源CRM" />
+    </div>
+    <div class="span9">
+        <p>金硕源人力资源服务有限公司 2014</p>
+        <p><small><a href="#" target="_blank">使用帮助</a><span class="muted">&middot;</span><a href="#" target="_blank">技术支持</a><span class="muted">&middot;</span><a href="#" target="_blank">联系我们</a></small></p>
+    </div>
+</div>
+<script type="text/javascript">
+    (function () {
+        var wait = document.getElementById('wait'), href = document.getElementById('href').href;
+        var interval = setInterval(function () {
+            var time = --wait.innerHTML;
+            if (time == 0) {
+                location.href = href;
+                clearInterval(interval);
+            };
+        }, 1000);
+    })();
+</script>
+

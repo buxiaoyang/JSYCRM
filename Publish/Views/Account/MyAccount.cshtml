@@ -1,0 +1,113 @@
+﻿@{
+    ViewBag.Title = "个人资料";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!-- Docs nav ================================================== -->
+<div class="page-header">
+    <h4>个人资料</h4>
+</div>
+<div class="row">
+    <div class="span12"></div>
+    <div class="span12">
+        @if (ViewBag.message != null)
+        { 
+            @Html.Partial("_OperaMessage", new {ViewBag.message})   
+        }
+        <form class="form-horizontal" action="~/Account/MyAccount" method="post">
+            <input type="hidden" name="user_id" value="1" /><table class="table span7">
+                <tfoot>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>
+                            <input name="submit" class="btn btn-primary" type="submit" value="保存" />
+                        </td>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    <tr>
+                        <td class="tdleft">邮箱&nbsp;<span style="color: red; font-weight:bold;">*</span></td>
+                        <td>
+                            <input class="text-input small-input" name="EMAIL" type="text" value="@(ViewBag.model_z_user.EMAIL.Trim())">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">手机号码&nbsp;<span style="color: red; font-weight:bold;">*</span></td>
+                        <td>
+                            <input class="text-input small-input" name="MOBILE_NUM" type="text" value="@(ViewBag.model_z_user.MOBILE_NUM.Trim())">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">座机号码</td>
+                        <td>
+                            <input class="text-input small-input" name="COMPANY_TEL" type="text" value="@(ViewBag.model_z_user.COMPANY_TEL.Trim())">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">修改密码</td>
+                        <td>
+                            <input class="text-input small-input" type="password" name="PASSWORD" id="PASSWORD" value="" />(留空则不修改密码)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">重复密码</td>
+                        <td>
+                            <input class="text-input small-input" type="password" name="PASSWORD_RE" id="PASSWORD_RE" value="" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <!-- End #tab1 -->
+</div>
+<!-- End #main-content -->
+<script type="text/javascript">
+    $("#dialog-weixin").dialog({
+        autoOpen: false,
+        modal: true,
+        width: 600,
+        Height: 600,
+        position: ["center", 100]
+    });
+    function changeRoleContent() {
+        department_id = $('#department').val();
+        if (department_id == '') {
+            $("#role").html('');
+        } else {
+            $.ajax({
+                type: 'get',
+                url: 'index.php?m=user&a=getpositionlist&id=' + department_id,
+                async: false,
+                success: function (data) {
+                    options = '';
+                    if (data.data) {
+                        $.each(data.data, function (k, v) {
+                            options += '<option value="' + v.position_id + '">' + v.name + '</option>';
+                        });
+                    }
+                    $("#role").html(options);
+                },
+                dataType: 'json'
+            });
+        }
+    }
+    $('#role').click(
+        function () {
+            department_id = $('#department').val();
+            if (department_id == '') {
+                alert("请先选择部门!");
+            }
+        }
+    );
+    $(function () {
+        $("#weixin").click(function () {
+            $('#dialog-weixin').dialog('open');
+            $('#dialog-weixin').load('/index.php?m=user&a=weixin');
+        });
+
+        $("#department option[value='1']").prop("selected", true);
+        $("#role option[value='1']").prop("selected", true);
+    });
+</script>

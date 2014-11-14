@@ -1,0 +1,226 @@
+﻿@model JSYCRM.Models.m_worker
+
+@{
+    ViewBag.Title = "编辑工友";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript" src="~/Scripts/kindeditor-all-min.js"></script>
+<script type="text/javascript" src="~/Scripts/zh_CN.js"></script>
+<link rel="stylesheet" href="~/Styles/kindeditor.css" type="text/css" />
+<script type="text/javascript">
+    var isFormDataChanged = 0;
+    var editor;
+    KindEditor.ready(function (K) {
+        editor = K.create('textarea[name="COMMENTS"]', {
+            uploadJson: '/Home/Upload',
+            allowFileManager: true,
+            loadStyleMode: false,
+            afterChange: function ()
+            {
+                isFormDataChanged++;
+                if (isFormDataChanged > 3)
+                {
+                    isFormDataChanged = 3;
+                }
+            }
+        });
+    });</script>
+<!-- Docs nav ================================================== -->
+<div class="page-header">
+    <h4>编辑工友(我的工友)</h4>
+</div>
+<div class="row">
+    <div class="span12">
+        @if (ViewBag.message != null)
+        { 
+            @Html.Partial("_OperaMessage", new { ViewBag.message })   
+        }
+        <form id="form1" action="~/MyWorker/Edit/@(Model.ID)" method="post">
+            <table class="table" width="95%" border="0" cellspacing="1" cellpadding="0">
+                <tbody>
+                    <tr>
+                        <th colspan="4">主要信息</th>
+                    </tr>
+                    <tr>
+                        <td class="tdleft" style="width:15%;" >姓名&nbsp;<span style="color: red; font-weight:bold;">*</span></td>
+                        <td style="width:35%;">
+                            <input type="text" name="B_NAME" id="B_NAME" value="@(Model.B_NAME)">
+                        </td>
+                        <td class="tdleft" style="width:15%;">性别&nbsp;<span style="color: red; font-weight:bold;">*</span></td>
+                        <td style="width:35%;">
+                            <input type="radio" name="B_GENDER" value="男" @(Model.B_GENDER == "男"? "checked='checked'":"")>&nbsp; 男 &nbsp;
+                            <input type="radio" name="B_GENDER" value="女" @(Model.B_GENDER == "女"? "checked='checked'":"")>&nbsp; 女 &nbsp;
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft" style="width:15%;">联系方式&nbsp;<span style="color: red; font-weight:bold;">*</span></td>
+                        <td style="width:35%;">
+                            <input type="text" name="B_TEL" id="B_TEL" value="@(Model.B_TEL)">
+                        </td>
+                        <td class="tdleft" style="width:15%;">联系地址</td>
+                        <td style="width:35%;">
+                            <input type="text" name="B_ADDRESS" id="B_ADDRESS"  value="@(Model.B_ADDRESS)">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft" style="width:15%;">创建地区&nbsp;<span style="color: red; font-weight:bold;">*</span></td>
+                        <td style="width:35%;">
+                            <select id="B_CREATE_AREA_ID" name="B_CREATE_AREA_ID">
+                                <option value="">--请选择--</option>
+                                @foreach (JSYCRM.Models.z_parameter item in ViewBag.company_list)
+                                { 
+                                   <option value="@item.ID"  @(Model.B_CREATE_AREA_ID == item.ID? "selected='selected'":"") >@item.VALUE</option> 
+                                }
+                            </select>
+                        </td>
+                        <td class="tdleft" style="width:15%;">到期时间&nbsp;<span style="color: red; font-weight:bold;">*</span></td>
+                        <td style="width:35%;">
+                            <input onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" type="text" name="B_EXPIRY_DATA" id="B_EXPIRY_DATA" value="@(Model.B_EXPIRY_DATA == null?"":((DateTime)Model.B_EXPIRY_DATA).ToString("yyyy-MM-dd"))">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft" style="width:15%;">身份证号</td>
+                        <td style="width:35%;">
+                            <input type="text" name="B_ID_CARD" id="B_ID_CARD" value="@(Model.B_ID_CARD)">
+                        </td>
+                        <td class="tdleft" style="width:15%;">管道</td>
+                        <td style="width:35%;">
+                            <input type="text" name="B_ASSOCIATED_USER_ID" disabled="disabled" id="B_ASSOCIATED_USER_ID" value="@(ViewBag.model_z_user.LAST_NAME)">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft" style="width:15%;">备注</td>
+                        <td colspan="3">
+                            <textarea name="COMMENTS" id="COMMENTS" style="width: 800px; height: 300px;"> @Html.Raw(Model.COMMENTS)</textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th colspan="4">在职信息</th>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">工作地点</td>
+                        <td>
+                            <select id="W_WORK_AREA_ID" name="W_WORK_AREA_ID">
+                                <option value="">--请选择--</option>
+                                @foreach (JSYCRM.Models.z_parameter item in ViewBag.area_list)
+                                { 
+                                   <option value="@item.ID"  @(Model.W_WORK_AREA_ID == item.ID? "selected='selected'":"")>@item.VALUE</option> 
+                                }
+                            </select>
+                        </td>
+                        <td class="tdleft">&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">是否输送</td>
+                        <td>
+                            <input type="radio" name="W_IS_DELIVERY" value="1"  @(Model.W_IS_DELIVERY == 1? "checked='checked'":"")>&nbsp; 是 &nbsp;
+                            <input type="radio" name="W_IS_DELIVERY" value="0"  @(Model.W_IS_DELIVERY == 0? "checked='checked'":"")>&nbsp; 否 &nbsp;    
+                        </td>
+                        <td class="tdleft">输送日期</td>
+                        <td>
+                            <input onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="user_input"  type="text" name="W_DELIVERY_DATA" value="@(Model.W_DELIVERY_DATA == null?"":((DateTime)Model.W_DELIVERY_DATA).ToString("yyyy-MM-dd"))"></td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">是否通过面试</td>
+                        <td>
+                            <input disabled="disabled" type="radio" name="W_IS_PASS_INTERVIEW" value="1"  @(Model.W_IS_PASS_INTERVIEW == 1? "checked='checked'":"")>&nbsp; 是 &nbsp;
+                            <input disabled="disabled" type="radio" name="W_IS_PASS_INTERVIEW" value="0"  @(Model.W_IS_PASS_INTERVIEW == 0? "checked='checked'":"")>&nbsp; 否 &nbsp;    
+                        </td>
+                        <td class="tdleft">通过面试日期</td>
+                        <td>
+                            <input disabled="disabled" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="user_input"  type="text" name="W_INTERVIEW_DATA" value="@(Model.W_INTERVIEW_DATA == null?"":((DateTime)Model.W_INTERVIEW_DATA).ToString("yyyy-MM-dd"))"></td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">是否报道</td>
+                        <td>
+                            <input disabled="disabled" type="radio" name="W_IS_ONBOARD" value="1"  @(Model.W_IS_ONBOARD == 1? "checked='checked'":"")>&nbsp; 是 &nbsp;
+                            <input disabled="disabled" type="radio" name="W_IS_ONBOARD" value="0"  @(Model.W_IS_ONBOARD == 0? "checked='checked'":"")>&nbsp; 否 &nbsp;    
+                        </td>
+                        <td class="tdleft">报道日期</td>
+                        <td>
+                            <input disabled="disabled" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="user_input"  type="text" name="W_ONBOARD_DATA" value="@(Model.W_ONBOARD_DATA == null?"":((DateTime)Model.W_ONBOARD_DATA).ToString("yyyy-MM-dd"))"></td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">是否离职</td>
+                        <td>
+                            <input disabled="disabled" type="radio" name="W_IS_RESIGNATION" value="1"  @(Model.W_IS_RESIGNATION == 1? "checked='checked'":"")>&nbsp; 是 &nbsp;
+                            <input disabled="disabled" type="radio" name="W_IS_RESIGNATION" value="0"  @(Model.W_IS_RESIGNATION == 0? "checked='checked'":"")>&nbsp; 否 &nbsp;    
+                        </td>
+                        <td class="tdleft">离职日期</td>
+                        <td>
+                            <input disabled="disabled" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="user_input"  type="text" name="W_RESIGNATION_DATA" value=" @(Model.W_RESIGNATION_DATA == null?"":((DateTime)Model.W_RESIGNATION_DATA).ToString("yyyy-MM-dd"))"></td>
+                    </tr>
+                    <tr>
+                        <th colspan="4">附加信息</th>
+                    </tr>
+                    <tr>
+                        <td class="tdleft" style="width:15%;">毕业年份</td>
+                        <td style="width:35%;">
+                            <input onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="user_input"  type="text" name="A_GRADUATE_DATA" value="@(Model.A_GRADUATE_DATA == null?"":((DateTime)Model.A_GRADUATE_DATA).ToString("yyyy-MM-dd")) ">
+                        </td>
+                        <td class="tdleft" style="width:15%;">户籍</td>
+                        <td style="width:35%;">
+                            <input type="text" id="A_CENSUS" name="A_CENSUS" value="@Html.DisplayFor(model => model.A_CENSUS)">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft" style="width:15%;">学历</td>
+                        <td style="width:35%;">
+                            <input class="user_input"  type="text" name="A_EDU_BACKGROUND" value="@Html.DisplayFor(model => model.A_EDU_BACKGROUND)">
+                        </td>
+                        <td class="tdleft" style="width:15%;">家庭电话</td>
+                        <td style="width:35%;">
+                            <input type="text" id="A_HOME_TEL" name="A_HOME_TEL" value="@Html.DisplayFor(model => model.A_HOME_TEL)" >
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft" >家庭地址</td>
+                        <td colspan="3">
+                            <input class="user_input"  type="text" name="A_HOME_ADDRESS" value=" @Html.DisplayFor(model => model.A_HOME_ADDRESS)">
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td style="text-align: center;" colspan="4">
+                            <input class="btn btn-primary" name="submit" type="submit" value="保存">&nbsp;
+                            <input class="btn" type="button" onclick="javascript: history.go(-1)" value="返回">&nbsp;
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $("textarea").change(function () {
+            isFormDataChanged++;
+            if (isFormDataChanged > 3) {
+                isFormDataChanged = 3;
+            }
+        });
+        $("select").change(function () {
+            isFormDataChanged++;
+            if (isFormDataChanged > 3) {
+                isFormDataChanged = 3;
+            }
+        });
+        $("input[type!=submit]").change(function () {
+            isFormDataChanged++;
+            if (isFormDataChanged > 3) {
+                isFormDataChanged = 3;
+            }
+        });
+        $("input[type=submit]").click(function () {
+            isFormDataChanged = 0;
+        });
+        window.onbeforeunload = function () {
+            if (isFormDataChanged>=2) {
+                return "您的修改内容还没有保存，您确定离开吗？";
+            }
+        }
+    });
+</script>

@@ -1,0 +1,89 @@
+﻿@model IEnumerable<JSYCRM.Models.m_announcement>
+@{
+    ViewBag.Title = "用户登陆";
+    Layout = "~/Views/Shared/_LayoutBasic.cshtml";
+}
+
+<div class="row">
+    <div class="span8">
+        <h4>
+            <img src="~/Images/index_notice.png" style="width: 17.5px;" />系统公告</h4>
+        <div class="hero-unit">
+            @{
+                int i = 0;
+                foreach (var item in Model)
+                {
+                    i++;
+                <p>
+                    @(i)、<a onclick="javascript:show(@(i));" style="font-size: 14px; color: #@item.TITLE_COLOR">@item.TITLE</a>&nbsp;
+                                <img src="~/Images/new.gif">
+                    &nbsp; (更新时间：@item.UPDATE_DATETIME)
+                </p>
+                <div id="content@(i)" class="hide">@Html.Raw(item.BODY)</div>
+                }
+                if (Model.Count() == 0)
+                {
+                <p style="color: red;">没有公告</p>
+                }
+            }
+        </div>
+    </div>
+    <div class="span4">
+        <div style="border-left: 1px solid #eee;">
+            <form action="~/Account/Login" method="post" class="form-signin">
+                <fieldset>
+                    <legend>
+                        <h3>员工登录<small> - 金硕源CRM</small></h3>
+                    </legend>
+                    @{
+                        if (ViewBag.errorMessage != null)
+                        {
+                        <div class="alert alert-error">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>@ViewBag.errorMessage
+                        </div> 
+                        }    
+                    }
+                    用户名：<input type="text" name="name" value="" class="text-input" placeholder="用户名" /><br />
+                    密 &nbsp;&nbsp; 码：<input type="password" name="password" value="" class="text-input" placeholder="密码" /><br />
+                    验证码：<input type="text" name="valicode" value="" class="text-input" style="width: 60px;" />
+                    <img id="valiCodeImg" style="cursor: pointer;" src="~/Account/GetValidateCode" alt="验证码" /><br />
+                    <label class="checkbox">
+                        <input type="checkbox" name="rememberMe" />三日内自动登陆</label>
+
+                    <input name="submit" class="btn btn-primary" type="submit" value="登录" />
+                    &nbsp; <a href="~/index.php?m=user&a=lostpw">忘记密码</a>
+                </fieldset>
+                <div class="row-fluid wukong">
+                    <div class="span3">
+                        <img src="~/Images/logo.png" class="logo" alt="金硕源CRM" />
+                    </div>
+                    <div class="span9">
+                        <p>金硕源人力资源服务有限公司 2014</p>
+                        <p><small><a href="#" target="_blank">使用帮助</a><span class="muted">&middot;</span><a href="#" target="_blank">技术支持</a><span class="muted">&middot;</span><a href="#" target="_blank">联系我们</a></small></p>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="dialog-message" class="hide" title="公告">loading...</div>
+<script type="text/javascript">
+    $('#dialog-message').dialog({
+        autoOpen: false,
+        modal: true,
+        width: 600,
+        maxHeight: 400,
+        position: ["center", 100]
+    });
+
+    $("#valiCodeImg").bind("click", function () {
+        this.src = "/Account/GetValidateCode?time=" + (new Date()).getTime();
+    });
+
+    function show(id) {
+        $('#dialog-message').dialog('open');
+        content = $("#content" + id).html();
+        $('#dialog-message').html(content);
+    }
+</script>

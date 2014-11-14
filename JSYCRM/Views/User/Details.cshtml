@@ -1,0 +1,99 @@
+﻿@model JSYCRM.Models.z_user
+
+@{
+    ViewBag.Title = "查看用户";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!-- Docs nav ================================================== -->
+<div class="page-header">
+    <h4>查看用户</h4>
+</div>
+<div class="row">
+    <div class="span12">
+            @if (ViewBag.message != null)
+            { 
+                @Html.Partial("_OperaMessage", new { ViewBag.message })   
+            }
+            <table class="table" border="0" cellspacing="1" cellpadding="0">
+                <tfoot>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>
+                            <a class="btn btn-primary" href="~/User/Edit/@Html.DisplayFor(model => model.ID)">编辑</a>
+                            &nbsp;
+                            <input class="btn btn" type="button" onclick="javascript: history.go(-1)" value="返回">
+
+                        </td>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    <tr>
+                        <td class="tdleft">账号</td>
+                        <td>
+                            @Html.DisplayFor(model => model.USER_CD)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">用户名</td>
+                        <td>
+                            @Html.DisplayFor(model => model.LAST_NAME)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">性别</td>
+                        <td>
+                            @Html.DisplayFor(model => model.GENDER)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">邮箱</td>
+                        <td>
+                            @Html.DisplayFor(model => model.EMAIL)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">座机号码</td>
+                        <td>
+                            @Html.DisplayFor(model => model.COMPANY_TEL)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">手机号码</td>
+                        <td>
+                            @Html.DisplayFor(model => model.MOBILE_NUM)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">分公司</td>
+                        <td>
+                            @Html.DisplayFor(model => model.COMPANY)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">职位</td>
+                        <td>
+                             @Html.DisplayFor(model => model.POSITION)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">描述</td>
+                        <td>
+                            @Html.DisplayFor(model => model.DESCRIPTION)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">系统权限</td>
+                        <td>
+                            @foreach (JSYCRM.Models.z_role item in ViewBag.z_role_list)
+                            { 
+                                <span>@item.NAME; </span> 
+                            }
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+    </div>
+</div>
+

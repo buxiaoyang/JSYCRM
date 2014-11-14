@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "新建" + ViewBag.Name;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Docs nav ================================================== -->
+<div class="page-header">
+    <h4>新建@(ViewBag.Name)</h4>
+</div>
+<div class="row">
+    <div class="span12">
+        @if (ViewBag.message != null)
+        { 
+            @Html.Partial("_OperaMessage", new {ViewBag.message})   
+        }
+        <form action="~/Parameter/Create?Name=@(ViewBag.Name)" method="post">
+            <table class="table" border="0" cellspacing="1" cellpadding="0">
+                <tfoot>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>
+                            <input class="btn btn-primary" name="submit" type="submit" value="保存">
+                            &nbsp;
+                            <input class="btn btn" type="button" onclick="javascript: history.go(-1)" value="返回">
+
+                        </td>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    <tr>
+                        <td class="tdleft">名称&nbsp;<span style="color: red; font-weight:bold;">*</span></td>
+                        <td>
+                            <input type="text" name="VALUE" class="span4" value="">(10个字符以内)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">描述</td>
+                        <td>
+                            <textarea name="DESCRIPTION" id="DESCRIPTION" style="width: 400px; height: 100px;"></textarea>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>

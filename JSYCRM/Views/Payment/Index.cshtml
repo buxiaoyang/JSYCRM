@@ -1,0 +1,458 @@
+﻿@{
+    ViewBag.Title = "统计数据";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Scripts/chart/highcharts.js"></script>
+<script src="~/Scripts/chart/modules/exporting.js"></script>
+<div class="page-header" style="border: none; font-size: 14px;">
+    <ul class="nav nav-tabs">
+        <li class="active">
+            <a href="~/Payment/Index">
+                <img src="~/Images/analytics_icon.png">&nbsp; 工友统计</a>
+        </li>
+        @if(ViewBag.canAddorImport)
+        {
+            <li>
+                <a href="~/Payment/Calculate">
+                    <img src="~/Images/yingshoukuan.png">&nbsp; 返费计算</a>
+            </li>
+            <li>
+                <a href="~/Payment/Setting">
+                    <img src="~/Images/fukuandan.png">&nbsp; 返费规则</a>
+            </li>
+        }
+    </ul>
+</div>
+<div class="row">
+    <div class="span12">
+        <ul class="nav pull-left">
+            <li class="pull-left">
+                <form class="form-inline" id="searchForm" action="~/Payment/Index" method="get">
+                    <ul class="nav pull-left">
+                        <li class="pull-left">选择工作地点：&nbsp;
+                                <select style="width: auto" name="area" id="area">
+                                    <option value="">全部</option>
+                                    @foreach (JSYCRM.Models.z_parameter item in ViewBag.area_list)
+                                    { 
+                                       <option value="@item.ID" @(ViewBag.area == item.ID.ToString()? "selected='selected'":"") >@item.VALUE</option> 
+                                    }
+                                </select>&nbsp;&nbsp;
+                        </li>
+                        @if(ViewBag.canAddorImport)
+                        {
+                            <li class="pull-left">选择管道：&nbsp;
+                                    <select style="width: auto" name="associated_user" id="associated_user">
+                                        <option value="">全部</option>
+                                        @foreach (JSYCRM.Models.z_user item in ViewBag.associated_user_list)
+                                        { 
+                                           <option value="@item.ID" @(ViewBag.associated_user == item.ID.ToString()? "selected='selected'":"") >@item.LAST_NAME</option> 
+                                        }
+                                    </select>&nbsp;&nbsp;
+                            </li>
+                        }
+                        <li class="pull-left">选择日期：&nbsp; 从<input style="width: 100px;" type="text" id="start_time" name="start_time" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate" value="@ViewBag.start_time">至<input style="width: 100px;" type="text" id="end_time" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" name="end_time" class="Wdate" value="@ViewBag.end_time">&nbsp;&nbsp;
+                        </li>
+                        <li class="pull-left">
+                            <button type="submit" class="btn">搜索</button></li>
+                    </ul>
+                </form>
+            </li>
+        </ul>
+    </div>
+    <div class="span2 knowledgecate">
+        <ul class="nav nav-list" id="report_menu">
+            <li class="active"><a href="javascript:void(0);">选择统计内容</a></li>
+            <li id="report">
+                <a class="active" href="javascript:void(0)">
+                    <i class="icon-white icon-chevron-right"></i>工友统计报表
+                </a>
+            </li>
+            <li id="source_chart">
+                <a href="javascript:void(0)">
+                    <i class="icon-white icon-chevron-right"></i>工作地点统计图
+                </a>
+            </li>
+            <li id="interview_rate">
+                <a href="javascript:void(0)">
+                    <i class="icon-white icon-chevron-right"></i>面试通过率统计
+                </a>
+            </li>
+            <li id="arrival_rate">
+                <a href="javascript:void(0)">
+                    <i class="icon-white icon-chevron-right"></i>到达率统计
+                </a>
+            </li>
+            <li id="job_rate">
+                <a href="javascript:void(0)">
+                    <i class="icon-white icon-chevron-right"></i>在职率统计
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="span10" id="report_data">
+        <div id="report_content" class="report_content" style="display:block;">
+            <table class="table table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>地区</th>
+                        <th>添加工友</th>
+                        <th>输送工友</th>
+                        <th>面试通过工友</th>
+                        <th>已报到工友</th>
+                        <th>已离职工友</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        System.Data.DataTable dtReportChart = (System.Data.DataTable)ViewBag.ReportChart;
+                        int TOTAL_ADD_WORKER = 0;
+                        int TOTAL_DELIVERY_WORKER = 0;
+                        int TOTAL_PASS_INTERVIEW_WORKER = 0;
+                        int TOTAL_ONBOARD_WORKER = 0;
+                        int TOTAL_RESIGNATION_WORKER = 0;
+                        for (int i = 0; i < dtReportChart.Rows.Count; i++)
+                        {
+                        <tr>
+                            <td>@(dtReportChart.Rows[i]["AREA"])</td>
+                            <td>@(dtReportChart.Rows[i]["ADD_WORKER"])</td>
+                            <td>@(dtReportChart.Rows[i]["DELIVERY_WORKER"])</td>
+                            <td>@(dtReportChart.Rows[i]["PASS_INTERVIEW_WORKER"])</td>
+                            <td>@(dtReportChart.Rows[i]["ONBOARD_WORKER"])</td>
+                            <td>@(dtReportChart.Rows[i]["RESIGNATION_WORKER"])</td>
+                        </tr>           
+                            TOTAL_ADD_WORKER += int.Parse(dtReportChart.Rows[i]["ADD_WORKER"].ToString());
+                            TOTAL_DELIVERY_WORKER += int.Parse(dtReportChart.Rows[i]["DELIVERY_WORKER"].ToString());
+                            TOTAL_PASS_INTERVIEW_WORKER += int.Parse(dtReportChart.Rows[i]["PASS_INTERVIEW_WORKER"].ToString());
+                            TOTAL_ONBOARD_WORKER += int.Parse(dtReportChart.Rows[i]["ONBOARD_WORKER"].ToString());
+                            TOTAL_RESIGNATION_WORKER += int.Parse(dtReportChart.Rows[i]["RESIGNATION_WORKER"].ToString());
+                        }
+                    }
+                </tbody>
+                <tfoot>
+                    <tr style="background: yellow">
+                        <td>共计:</td>
+                        <td colspan="4">
+                            <span>添加工友：<b>@(TOTAL_ADD_WORKER)</b> 人 &nbsp;
+                                输送工友：<b>@(TOTAL_DELIVERY_WORKER)</b> 人 &nbsp;
+                                面试通过工友：<b>@(TOTAL_PASS_INTERVIEW_WORKER)</b> 人&nbsp;
+                                已报到工友：<b>@(TOTAL_ONBOARD_WORKER)</b> 人&nbsp;
+                                已离职工友：<b>@(TOTAL_RESIGNATION_WORKER)</b> 人&nbsp;
+                            </span>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div id="source_chart_content" class="report_content" style="display:none;">
+        </div>
+        <div id="interview_rate_content" class="report_content" style="display:none;">
+        </div>
+        <div id="arrival_rate_content" class="report_content" style="display:none;">
+        </div>
+        <div id="job_rate_content" class="report_content" style="display:none;">
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $("#report_menu").find("li").click(function () {
+        var thisid = $(this).attr("id");
+        if (thisid != undefined && thisid != "")
+        {
+            $("#report_menu").find("a").removeAttr("class");
+            $(this).find("a").attr("class", "active");
+            $("#report_data").find("div.report_content").css("display", "none");
+            $("#" + thisid + "_content").css("display", "block");
+            eval(thisid + "_content();");
+        }
+    });
+
+    var reportArray = new Array();
+
+    $("#report_content").find("tbody").find("tr").each(function () {
+        var report = new Array();
+        $(this).find("td").each(function(){
+            report.push($(this).html());
+        });
+        reportArray.push(report);
+    });
+
+    function source_chart_content() {
+        $('#source_chart_content').highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: '工作地点统计图'
+            },
+            xAxis: {
+                categories: [
+                    @{
+                        @Html.Raw("'")@(dtReportChart.Rows[0]["AREA"])@Html.Raw("'")
+                        for (int i = 1; i < dtReportChart.Rows.Count; i++)
+                        {
+                            @Html.Raw(",'")@(dtReportChart.Rows[i]["AREA"])@Html.Raw("'")   
+                        }
+                    }
+                ]
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: '工作地点统计图'
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y}人</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: '添加工友',
+                data: [
+                    @{
+                        @(dtReportChart.Rows[0]["ADD_WORKER"])
+                        for (int i = 1; i < dtReportChart.Rows.Count; i++)
+                        {
+                            @Html.Raw(",")@(dtReportChart.Rows[i]["ADD_WORKER"])      
+                        }
+                    }
+                ]
+            }]
+        });
+    }
+
+    function interview_rate_content() {
+        $('#interview_rate_content').highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: '面试通过率统计(%)'
+            },
+            xAxis: {
+                categories: [
+                    @{
+                        @Html.Raw("'")@(dtReportChart.Rows[0]["AREA"])@Html.Raw("'")
+                        for (int i = 1; i < dtReportChart.Rows.Count; i++)
+                        {
+                            @Html.Raw(",'")@(dtReportChart.Rows[i]["AREA"])@Html.Raw("'")   
+                        }
+                    }
+                ]
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: '面试通过率统计(%)'
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                   '<td style="padding:0"><b>{point.y}%</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: '面试通过率',
+                color: '#009900',
+                data: [
+                    @{
+                        int number1 = int.Parse(dtReportChart.Rows[0]["DELIVERY_WORKER"].ToString());
+                        int number2 = int.Parse(dtReportChart.Rows[0]["PASS_INTERVIEW_WORKER"].ToString());
+                        int total = number1 + number2;
+                        if (total != 0)
+                        {
+                            @((int)((float)number2/(float)total*100))
+                        }
+                        else
+                        {
+                            @(total)
+                        }
+                        for (int i = 1; i < dtReportChart.Rows.Count; i++)
+                        {
+                            number1 = int.Parse(dtReportChart.Rows[i]["DELIVERY_WORKER"].ToString());
+                            number2 = int.Parse(dtReportChart.Rows[i]["PASS_INTERVIEW_WORKER"].ToString());
+                            total = number1 + number2;
+                            if (total != 0)
+                            {
+                                @Html.Raw(",")@((int)((float)number2/(float)total*100))
+                            }
+                            else
+                            {
+                                @Html.Raw(",")@(total)
+                            }     
+                        }
+                    }
+                ]
+            }]
+        });
+    }
+
+    function arrival_rate_content() {
+        $('#arrival_rate_content').highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: '到达率统计(%)'
+            },
+            xAxis: {
+                categories: [
+                    @{
+                        @Html.Raw("'")@(dtReportChart.Rows[0]["AREA"])@Html.Raw("'")
+                        for (int i = 1; i < dtReportChart.Rows.Count; i++)
+                        {
+                            @Html.Raw(",'")@(dtReportChart.Rows[i]["AREA"])@Html.Raw("'")   
+                        }
+                    }
+                ]
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: '到达率率统计(%)'
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                   '<td style="padding:0"><b>{point.y}%</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: '到达率',
+                color: '#FF6600',
+                data: [
+                    @{
+                        number1 = int.Parse(dtReportChart.Rows[0]["PASS_INTERVIEW_WORKER"].ToString());
+                        number2 = int.Parse(dtReportChart.Rows[0]["ONBOARD_WORKER"].ToString());
+                        total = number1 + number2;
+                        if (total != 0)
+                        {
+                            @((int)((float)number2/(float)total*100))
+                        }
+                        else
+                        {
+                            @(total)
+                        }
+                        for (int i = 1; i < dtReportChart.Rows.Count; i++)
+                        {
+                            number1 = int.Parse(dtReportChart.Rows[i]["PASS_INTERVIEW_WORKER"].ToString());
+                            number2 = int.Parse(dtReportChart.Rows[i]["ONBOARD_WORKER"].ToString());
+                            total = number1 + number2;
+                            if (total != 0)
+                            {
+                                @Html.Raw(",")@((int)((float)number2/(float)total*100))
+                            }
+                            else
+                            {
+                                @Html.Raw(",")@(total)
+                            }     
+                        }
+                    }
+                ]
+            }]
+        });
+    }
+
+    function job_rate_content() {
+        $('#job_rate_content').highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: '在职率统计(%)'
+            },
+            xAxis: {
+                categories: [
+                    @{
+                        @Html.Raw("'")@(dtReportChart.Rows[0]["AREA"])@Html.Raw("'")
+                        for (int i = 1; i < dtReportChart.Rows.Count; i++)
+                        {
+                            @Html.Raw(",'")@(dtReportChart.Rows[i]["AREA"])@Html.Raw("'")   
+                        }
+                    }
+                ]
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: '在职率统计(%)'
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                   '<td style="padding:0"><b>{point.y}%</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: '在职率',
+                color: '#CC0099',
+                data: [
+                    @{
+                        number1 = int.Parse(dtReportChart.Rows[0]["RESIGNATION_WORKER"].ToString());
+                        number2 = int.Parse(dtReportChart.Rows[0]["ONBOARD_WORKER"].ToString());
+                        total = number1 + number2;
+                        if (total != 0)
+                        {
+                            @((int)((float)number2/(float)total*100))
+                        }
+                        else
+                        {
+                            @(total)
+                        }
+                        for (int i = 1; i < dtReportChart.Rows.Count; i++)
+                        {
+                            number1 = int.Parse(dtReportChart.Rows[i]["RESIGNATION_WORKER"].ToString());
+                            number2 = int.Parse(dtReportChart.Rows[i]["ONBOARD_WORKER"].ToString());
+                            total = number1 + number2;
+                            if (total != 0)
+                            {
+                                @Html.Raw(",")@((int)((float)number2/(float)total*100))
+                            }
+                            else
+                            {
+                                @Html.Raw(",")@(total)
+                            }     
+                        }
+                    }
+                ]
+            }]
+        });
+    }
+    
+</script>

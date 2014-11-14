@@ -1,0 +1,130 @@
+﻿@model IEnumerable<JSYCRM.Models.m_return_fee_rule>
+@{
+    ViewBag.Title = "返费规则";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-header" style="border: none; font-size: 14px;">
+    <ul class="nav nav-tabs">
+        <li>
+            <a href="~/Payment/Index"><img src="~/Images/analytics_icon.png">&nbsp; 工友统计</a>
+        </li>
+        <li>
+            <a href="~/Payment/Calculate"><img src="~/Images/yingshoukuan.png">&nbsp; 返费计算</a>
+        </li>
+        <li class="active">
+            <a href="~/Payment/Setting"><img src="~/Images/fukuandan.png">&nbsp; 返费规则</a>
+        </li>
+    </ul>
+</div>
+<div class="row">
+    <div class="span12">
+        <ul class="nav pull-left">
+            <li class="pull-left">
+                <form class="form-inline" id="searchForm" action="~/Payment/Setting" method="get">
+                    <ul class="nav pull-left">
+                        <li class="pull-left">选择工作地点：&nbsp;
+                                <select style="width: auto" name="area" id="area">
+                                    @foreach (JSYCRM.Models.z_parameter item in ViewBag.area_list)
+                                    { 
+                                       <option value="@item.ID" @(ViewBag.area == item.ID.ToString()? "selected='selected'":"") >@item.VALUE</option> 
+                                    }
+                                </select>&nbsp;&nbsp;
+                        </li>
+                        <li class="pull-left">选择分公司：&nbsp;
+                                <select style="width: auto" name="company" id="company">
+                                    @foreach (JSYCRM.Models.z_parameter item in ViewBag.company_list)
+                                    { 
+                                       <option value="@item.ID" @(ViewBag.company == item.ID.ToString()? "selected='selected'":"") >@item.VALUE</option> 
+                                    }
+                                </select>
+                        </li>
+                    </ul>
+                </form>
+            </li>
+        </ul>
+    </div>
+    <div class="span12">
+        @if (ViewBag.message != null)
+        { 
+            @Html.Partial("_OperaMessage", new {ViewBag.message})   
+        }
+        <form action="~/Payment/Setting" method="post">
+            <table class="table" border="0" cellspacing="1" cellpadding="0">
+                <tfoot>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>
+                            <input class="btn btn-primary" name="submit" type="submit" value="保存">
+
+                            <input class="btn btn-primary" name="areaSave" id="areaSave" type="hidden" value="@(ViewBag.area)">
+                            <input class="btn btn-primary" name="companySave" id="companySave" type="hidden" value="@(ViewBag.company)">
+                        </td>
+                    </tr>
+                </tfoot>
+                <tbody>
+                        @for (int i = 1; i < 2; i++)
+                        {
+                            JSYCRM.Models.m_return_fee_rule model_m_return_fee_rule = null;
+                            foreach (var item in Model)
+                            {
+                                if (item.NUMBER == i)
+                                {
+                                    model_m_return_fee_rule = item;
+                                }
+                            }
+                             <tr>
+                                <td class="tdleft">规则@(JSYCRM.Common.Common.getChineseNumber(i))：</td>
+                                <td>
+                                    时间区间
+                                    <input onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" style="width:100px;" type="text" name="DATE_FROM@(i)" value="@(model_m_return_fee_rule== null?"":model_m_return_fee_rule.TIME_START.ToString("yyyy-MM-dd"))">~
+                                    <input onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" style="width:100px;" type="text" name="DATE_TO@(i)" value="@(model_m_return_fee_rule== null?"":model_m_return_fee_rule.TIME_END.ToString("yyyy-MM-dd"))">
+                                    &nbsp;&nbsp;
+                                    状态
+                                    @if(model_m_return_fee_rule == null)
+                                    {
+                                        <select name="STATUS@(i)" style="width:100px;">
+                                            <option value="">--请选择--</option>
+                                            <option value="3">输送</option>
+                                            <option value="4">通过面试</option>
+                                            <option value="5">报到</option>
+                                            <option value="6">离职</option>
+                                        </select>
+                                    }
+                                    else
+                                    {
+                                        <select name="STATUS@(i)" style="width:100px;">
+                                            <option value="">--请选择--</option>
+                                            <option value="3" @(model_m_return_fee_rule.STATUS == 3? "selected='selected'":"")>输送</option>
+                                            <option value="4" @(model_m_return_fee_rule.STATUS == 4? "selected='selected'":"")>通过面试</option>
+                                            <option value="5" @(model_m_return_fee_rule.STATUS == 5? "selected='selected'":"")>报到</option>
+                                            <option value="6" @(model_m_return_fee_rule.STATUS == 6? "selected='selected'":"")>离职</option>
+                                        </select>
+                                    }
+                                    &nbsp;&nbsp;
+                                    天数
+                                    <input style="width:50px;" type="text" name="DAY@(i)" value="@(model_m_return_fee_rule== null?"":model_m_return_fee_rule.DAYS.ToString())">
+                                    &nbsp;&nbsp;
+                                    男返
+                                    <input style="width:50px;" type="text" name="MEN@(i)" value="@(model_m_return_fee_rule== null?"":model_m_return_fee_rule.FEE_MEN.ToString())">元
+                                    &nbsp;&nbsp;
+                                    女返
+                                    <input style="width:50px;" type="text" name="WOMEN@(i)" value="@(model_m_return_fee_rule== null?"":model_m_return_fee_rule.FEE_WOMEN.ToString())">元
+                                </td>
+                            </tr> 
+                        }               
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $("#area").change(function () {
+            $("#searchForm").submit();
+        });
+        $("#company").change(function () {
+            $("#searchForm").submit();
+        });
+    });
+</script>

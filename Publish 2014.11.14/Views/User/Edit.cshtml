@@ -1,0 +1,152 @@
+﻿@model JSYCRM.Models.z_user
+
+@{
+    ViewBag.Title = "编辑用户";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Docs nav ================================================== -->
+<div class="page-header">
+    <h4>编辑用户</h4>
+</div>
+<div class="row">
+    <div class="span12">
+        @if (ViewBag.message != null)
+        { 
+            @Html.Partial("_OperaMessage", new {ViewBag.message})   
+        }
+        <form action="~/User/Edit/@Html.DisplayFor(model => model.ID)" method="post">
+            <table class="table" border="0" cellspacing="1" cellpadding="0">
+                <tfoot>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>
+                            <input class="btn btn-primary" name="submit" type="submit" value="保存">
+                            &nbsp;
+                            <input class="btn btn" type="button" onclick="javascript: history.go(-1)" value="返回">
+
+                        </td>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    <tr>
+                        <td class="tdleft">账号&nbsp;<span style="color: red; font-weight:bold;">*</span></td>
+                        <td>
+                            <input type="text" name="USER_CD" value="@Html.DisplayFor(model => model.USER_CD)">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">修改密码</td>
+                        <td>
+                            <input type="password" name="PASSWORD"   value="">(留空则不修改密码)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">重复密码</td>
+                        <td>
+                            <input type="password" name="PASSWORD_RE"   value="">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">用户名&nbsp;<span style="color: red; font-weight:bold;">*</span></td>
+                        <td>
+                            <input type="text" name="LAST_NAME"   value="@Html.DisplayFor(model => model.LAST_NAME)">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">性别&nbsp;<span style="color: red; font-weight:bold;">*</span></td>
+                        <td>
+                            <input type="radio" name="GENDER" value="男" @(Model.GENDER == "男"? "checked='checked'":"") >男
+                            <input type="radio" name="GENDER" value="女" @(Model.GENDER == "女"? "checked='checked'":"") >女
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">邮箱&nbsp;<span style="color: red; font-weight:bold;">*</span></td>
+                        <td>
+                            <input type="text" name="EMAIL"   value="@Html.DisplayFor(model => model.EMAIL)">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">座机号码</td>
+                        <td>
+                            <input type="text" name="COMPANY_TEL"   value="@Html.DisplayFor(model => model.COMPANY_TEL)">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">手机号码&nbsp;<span style="color: red; font-weight:bold;">*</span></td>
+                        <td>
+                            <input type="text" name="MOBILE_NUM"   value="@Html.DisplayFor(model => model.MOBILE_NUM)">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">分公司&nbsp;<span style="color: red; font-weight:bold;">*</span></td>
+                        <td>
+                            <select id="role" name="COMPANY_ID">
+                                @foreach (JSYCRM.Models.z_parameter item in ViewBag.company_list)
+                                { 
+                                   <option value="@item.ID" @(Model.COMPANY_ID == item.ID? "selected='selected'":"") >@item.VALUE</option> 
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">职位&nbsp;<span style="color: red; font-weight:bold;">*</span></td>
+                        <td>
+                            <select id="role" name="POSITION_ID">
+                                @foreach (JSYCRM.Models.z_parameter item in ViewBag.position_list)
+                                { 
+                                   <option value="@item.ID" @(Model.POSITION_ID == item.ID? "selected='selected'":"")>@item.VALUE</option> 
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">描述</td>
+                        <td>
+                            <textarea name="DESCRIPTION" id="DESCRIPTION" style="width: 400px; height: 100px;"> @Html.DisplayFor(model => model.DESCRIPTION)</textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">系统权限&nbsp;<span style="color: red; font-weight:bold;">*</span></td>
+                        <td>
+                            @foreach (JSYCRM.Models.z_role item in ViewBag.role_list)
+                            {
+                                var checkStr = "";
+                                foreach (JSYCRM.Models.z_role item_user in ViewBag.role_list_user)
+                                {
+                                    if (item_user.ID == item.ID)
+                                    { 
+                                        checkStr = "checked='checked'";
+                                    }
+                                }
+                                <input name="ROLE" type="checkbox" value="@(item.ID)" @checkStr />@(item.NAME) <text>&nbsp; &nbsp;</text>                            
+                            }
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        var isFormDataChanged = false;
+        $("textarea").change(function () {
+            isFormDataChanged = true;
+        });
+        $("select").change(function () {
+            isFormDataChanged = true;
+        });
+        $("input[type!=submit]").change(function () {
+            isFormDataChanged = true;
+        });
+        $("input[type=submit]").click(function () {
+            isFormDataChanged = false;
+        });
+        window.onbeforeunload = function () {
+            if (isFormDataChanged) {
+                return "您的修改内容还没有保存，您确定离开吗？";
+            }
+        }
+    });
+</script>

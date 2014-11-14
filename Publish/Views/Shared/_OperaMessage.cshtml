@@ -1,0 +1,9 @@
+﻿@{
+    var message = Model.ToString();
+    message = message.Substring(0, message.LastIndexOf("}") - 1);
+    message = message.Substring(message.IndexOf("=") + 1);
+}
+
+<div class="alert @(message.IndexOf("失败") > -1 ? "alert-error" : "alert-success")">
+    <button type="button" class="close" data-dismiss="alert">×</button>@Html.Raw(message)
+</div>

@@ -1,0 +1,184 @@
+﻿@{
+    ViewBag.Title = "新建工友";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript" src="~/Scripts/kindeditor-all-min.js"></script>
+<script type="text/javascript" src="~/Scripts/zh_CN.js"></script>
+<link rel="stylesheet" href="~/Styles/kindeditor.css" type="text/css" />
+<script type="text/javascript">var editor;
+    KindEditor.ready(function (K) {
+        editor = K.create('textarea[name="COMMENTS"]', {
+            uploadJson: '/Home/Upload',
+            allowFileManager: true,
+            loadStyleMode: false
+        });
+    });</script>
+<!-- Docs nav ================================================== -->
+<div class="page-header">
+    <h4>新建工友(我的工友)</h4>
+</div>
+<div class="row">
+    <div class="span12">
+        @if (ViewBag.message != null)
+        { 
+            @Html.Partial("_OperaMessage", new { ViewBag.message })   
+        }
+        <form id="form1" action="~/MyWorker/Create" method="post">
+            <table class="table" width="95%" border="0" cellspacing="1" cellpadding="0">
+                <tbody>
+                    <tr>
+                        <th colspan="4">主要信息</th>
+                    </tr>
+                    <tr>
+                        <td class="tdleft" style="width:15%;" >姓名&nbsp;<span style="color: red; font-weight:bold;">*</span></td>
+                        <td style="width:35%;">
+                            <input type="text" name="B_NAME" id="B_NAME">
+                        </td>
+                        <td class="tdleft" style="width:15%;">性别&nbsp;<span style="color: red; font-weight:bold;">*</span></td>
+                        <td style="width:35%;">
+                            <input type="radio" name="B_GENDER" value="男">&nbsp; 男 &nbsp;
+                            <input type="radio" name="B_GENDER" value="女">&nbsp; 女 &nbsp;
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft" style="width:15%;">联系方式&nbsp;<span style="color: red; font-weight:bold;">*</span></td>
+                        <td style="width:35%;">
+                            <input type="text" name="B_TEL" id="B_TEL">
+                        </td>
+                        <td class="tdleft" style="width:15%;">联系地址</td>
+                        <td style="width:35%;">
+                            <input type="text" name="B_ADDRESS" id="B_ADDRESS">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft" style="width:15%;">创建地区&nbsp;<span style="color: red; font-weight:bold;">*</span></td>
+                        <td style="width:35%;">
+                            <select id="B_CREATE_AREA_ID" name="B_CREATE_AREA_ID">
+                                <option value="">--请选择--</option>
+                                @foreach (JSYCRM.Models.z_parameter item in ViewBag.company_list)
+                                { 
+                                   <option value="@item.ID">@item.VALUE</option> 
+                                }
+                            </select>
+                        </td>
+                        <td class="tdleft" style="width:15%;">到期时间&nbsp;<span style="color: red; font-weight:bold;">*</span></td>
+                        <td style="width:35%;">
+                            <input onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" type="text" name="B_EXPIRY_DATA" id="B_EXPIRY_DATA" value="@(DateTime.Now.AddDays(2).ToString("yyyy-MM-dd"))">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft" style="width:15%;">身份证号</td>
+                        <td style="width:35%;">
+                            <input type="text" name="B_ID_CARD" id="B_ID_CARD">
+                        </td>
+                        <td class="tdleft" style="width:15%;">管道</td>
+                        <td style="width:35%;">
+                            <input type="text" name="B_ASSOCIATED_USER_ID" disabled="disabled" id="B_ASSOCIATED_USER_ID" value="@(ViewBag.model_z_user.LAST_NAME)">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft" style="width:15%;">备注</td>
+                        <td colspan="3">
+                            <textarea name="COMMENTS" id="COMMENTS" style="width: 800px; height: 200px;"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th colspan="4">在职信息</th>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">工作地点</td>
+                        <td>
+                            <select id="W_WORK_AREA_ID" name="W_WORK_AREA_ID">
+                                <option value="">--请选择--</option>
+                                @foreach (JSYCRM.Models.z_parameter item in ViewBag.area_list)
+                                { 
+                                   <option value="@item.ID">@item.VALUE</option> 
+                                }
+                            </select>
+                        </td>
+                        <td class="tdleft">&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">是否输送</td>
+                        <td>
+                            <input type="radio" name="W_IS_DELIVERY" value="1">&nbsp; 是 &nbsp;
+                            <input type="radio" name="W_IS_DELIVERY" value="0">&nbsp; 否 &nbsp;    
+                        </td>
+                        <td class="tdleft">输送日期</td>
+                        <td>
+                            <input onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="user_input"  type="text" name="W_DELIVERY_DATA"></td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">是否通过面试</td>
+                        <td>
+                            <input disabled="disabled" type="radio" name="W_IS_PASS_INTERVIEW" value="1">&nbsp; 是 &nbsp;
+                            <input disabled="disabled" type="radio" name="W_IS_PASS_INTERVIEW" value="0">&nbsp; 否 &nbsp;    
+                        </td>
+                        <td class="tdleft">通过面试日期</td>
+                        <td>
+                            <input disabled="disabled" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="user_input"  type="text" name="W_INTERVIEW_DATA"></td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">是否报道</td>
+                        <td>
+                            <input disabled="disabled" type="radio" name="W_IS_ONBOARD" value="1">&nbsp; 是 &nbsp;
+                            <input disabled="disabled" type="radio" name="W_IS_ONBOARD" value="0">&nbsp; 否 &nbsp;    
+                        </td>
+                        <td class="tdleft">报道日期</td>
+                        <td>
+                            <input disabled="disabled" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="user_input"  type="text" name="W_ONBOARD_DATA"></td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft">是否离职</td>
+                        <td>
+                            <input disabled="disabled" type="radio" name="W_IS_RESIGNATION" value="1">&nbsp; 是 &nbsp;
+                            <input disabled="disabled" type="radio" name="W_IS_RESIGNATION" value="0">&nbsp; 否 &nbsp;    
+                        </td>
+                        <td class="tdleft">离职日期</td>
+                        <td>
+                            <input disabled="disabled" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="user_input"  type="text" name="W_RESIGNATION_DATA"></td>
+                    </tr>
+                    <tr>
+                        <th colspan="4">附加信息</th>
+                    </tr>
+                    <tr>
+                        <td class="tdleft" style="width:15%;">毕业年份</td>
+                        <td style="width:35%;">
+                            <input onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="user_input"  type="text" name="A_GRADUATE_DATA">
+                        </td>
+                        <td class="tdleft" style="width:15%;">户籍</td>
+                        <td style="width:35%;">
+                            <input type="text" id="A_CENSUS" name="A_CENSUS" >
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft" style="width:15%;">学历</td>
+                        <td style="width:35%;">
+                            <input class="user_input"  type="text" name="A_EDU_BACKGROUND">
+                        </td>
+                        <td class="tdleft" style="width:15%;">家庭电话</td>
+                        <td style="width:35%;">
+                            <input type="text" id="A_HOME_TEL" name="A_HOME_TEL" >
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdleft" >家庭地址</td>
+                        <td colspan="3">
+                            <input class="user_input"  type="text" name="A_HOME_ADDRESS">
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td style="text-align: center;" colspan="4">
+                            <input class="btn btn-primary" name="submit" type="submit" value="保存">&nbsp;
+                            <input class="btn" type="button" onclick="javascript: history.go(-1)" value="返回">&nbsp;
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </form>
+    </div>
+</div>
+
