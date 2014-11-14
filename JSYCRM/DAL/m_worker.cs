@@ -710,7 +710,7 @@ namespace JSYCRM.DAL
             string byTime = "B_EXPIRY_DATA";
             if (isPool)
             {
-                byTime = "CREATE_DATETIME";
+                byTime = "T.CREATE_DATETIME";
             }
             String where = "";
             if (field != "" && field != null && condition != "" && condition != null && search != "" && search != null)
@@ -757,16 +757,16 @@ namespace JSYCRM.DAL
                         where += " and STATUS = 6 ";
                         break;
                     case "today":
-                        where += " and " + byTime + " <= '" + DateTime.Now.AddDays(1).ToString("yyyy-MM-dd") + "' ";
+                        where += " and " + byTime + " > '" + DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd") + "' ";
                         break;
                     case "week":
-                        where += " and  " + byTime + " <= '" + DateTime.Now.AddDays(8).ToString("yyyy-MM-dd") + "' ";
+                        where += " and  " + byTime + " > '" + DateTime.Now.AddDays(-8).ToString("yyyy-MM-dd") + "' ";
                         break;
                     case "d15":
-                        where += " and  " + byTime + " <= '" + DateTime.Now.AddDays(16).ToString("yyyy-MM-dd") + "' ";
+                        where += " and  " + byTime + " > '" + DateTime.Now.AddDays(-16).ToString("yyyy-MM-dd") + "' ";
                         break;
                     case "d30":
-                        where += " and  " + byTime + " <= '" + DateTime.Now.AddDays(31).ToString("yyyy-MM-dd") + "' ";
+                        where += " and  " + byTime + " > '" + DateTime.Now.AddDays(-31).ToString("yyyy-MM-dd") + "' ";
                         break;
                 }
             }
@@ -947,7 +947,7 @@ namespace JSYCRM.DAL
             if (isPool)
             {
                 isInPool = "STATUS = 1 ";
-                byTime = "CREATE_DATETIME";
+                byTime = "TT.CREATE_DATETIME";
             }
             else
             {
@@ -998,16 +998,16 @@ namespace JSYCRM.DAL
                         where += " and STATUS = 6 ";
                         break;
                     case "today":
-                        where += " and " + byTime + " <= '" + DateTime.Now.AddDays(1).ToString("yyyy-MM-dd") + "' ";
+                        where += " and " + byTime + " > '" + DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd") + "' ";
                         break;
                     case "week":
-                        where += " and  " + byTime + " <= '" + DateTime.Now.AddDays(8).ToString("yyyy-MM-dd") + "' ";
+                        where += " and  " + byTime + " > '" + DateTime.Now.AddDays(-8).ToString("yyyy-MM-dd") + "' ";
                         break;
                     case "d15":
-                        where += " and  " + byTime + " <= '" + DateTime.Now.AddDays(16).ToString("yyyy-MM-dd") + "' ";
+                        where += " and  " + byTime + " > '" + DateTime.Now.AddDays(-16).ToString("yyyy-MM-dd") + "' ";
                         break;
                     case "d30":
-                        where += " and  " + byTime + " <= '" + DateTime.Now.AddDays(31).ToString("yyyy-MM-dd") + "' ";
+                        where += " and  " + byTime + " > '" + DateTime.Now.AddDays(-31).ToString("yyyy-MM-dd") + "' ";
                         break;
                 }
             }
@@ -1043,7 +1043,7 @@ namespace JSYCRM.DAL
             String where = "";
             if (isPool)
             {
-                byTime = "CREATE_DATETIME";
+                byTime = "T.CREATE_DATETIME";
             }
             else
             {
@@ -1093,16 +1093,16 @@ namespace JSYCRM.DAL
                         where += " and STATUS = 6 ";
                         break;
                     case "today":
-                        where += " and " + byTime + " <= '" + DateTime.Now.AddDays(1).ToString("yyyy-MM-dd") + "' ";
+                        where += " and " + byTime + " > '" + DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd") + "' ";
                         break;
                     case "week":
-                        where += " and  " + byTime + " <= '" + DateTime.Now.AddDays(8).ToString("yyyy-MM-dd") + "' ";
+                        where += " and  " + byTime + " > '" + DateTime.Now.AddDays(-8).ToString("yyyy-MM-dd") + "' ";
                         break;
                     case "d15":
-                        where += " and  " + byTime + " <= '" + DateTime.Now.AddDays(16).ToString("yyyy-MM-dd") + "' ";
+                        where += " and  " + byTime + " > '" + DateTime.Now.AddDays(-16).ToString("yyyy-MM-dd") + "' ";
                         break;
                     case "d30":
-                        where += " and  " + byTime + " <= '" + DateTime.Now.AddDays(31).ToString("yyyy-MM-dd") + "' ";
+                        where += " and  " + byTime + " > '" + DateTime.Now.AddDays(-31).ToString("yyyy-MM-dd") + "' ";
                         break;
                 }
             }

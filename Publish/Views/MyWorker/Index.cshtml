@@ -295,13 +295,13 @@
         });
         $('#delete').click(function () {
             if (confirm("确定要删除吗？")) {
-                $("#form1").attr('action', '/MyWorker/Delete?page=@(ViewBag.page)&field=@(ViewBag.field)&condition=@(ViewBag.condition)&search=@(Url.Encode(ViewBag.search))&by=@(ViewBag.by)');
+                $("#form1").attr('action', '/JSY/MyWorker/Delete?page=@(ViewBag.page)&field=@(ViewBag.field)&condition=@(ViewBag.condition)&search=@(Url.Encode(ViewBag.search))&by=@(ViewBag.by)');
                     $("#form1").submit();
                 }
             });
             $('#remove').click(function () {
                 if (confirm("确认要放弃吗？")) {
-                    $("#form1").attr('action', '/MyWorker/GiveUp?page=@(ViewBag.page)&field=@(ViewBag.field)&condition=@(ViewBag.condition)&search=@(Url.Encode(ViewBag.search))&by=@(ViewBag.by)');
+                    $("#form1").attr('action', '/JSY/MyWorker/GiveUp?page=@(ViewBag.page)&field=@(ViewBag.field)&condition=@(ViewBag.condition)&search=@(Url.Encode(ViewBag.search))&by=@(ViewBag.by)');
                     $("#form1").submit();
                 }
             });
