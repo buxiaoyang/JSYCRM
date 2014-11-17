@@ -128,6 +128,7 @@ namespace JSYCRM.Controllers
 
         public ActionResult Calculate(string area, string company, string message)
         {
+            message = HttpUtility.UrlDecode(message, System.Text.Encoding.UTF8);
             DAL.z_parameter dal_z_parameter = new DAL.z_parameter();
             List<Models.z_parameter> area_list = dal_z_parameter.GetModelList("地区");
             List<Models.z_parameter> company_list = dal_z_parameter.GetModelList("分公司");

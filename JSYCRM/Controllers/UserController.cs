@@ -15,6 +15,7 @@ namespace JSYCRM.Controllers
 
         public ActionResult Index(String message, String page, String name)
         {
+            message = HttpUtility.UrlDecode(message, System.Text.Encoding.UTF8);
             int pageNum = Common.Common.getPageNum(page);
             DAL.z_user dal_z_user = new DAL.z_user();
             if (message != null && message != "")

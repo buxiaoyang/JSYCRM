@@ -18,7 +18,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/12/2014 11:48:42</publishTime>
     </File>
     <File Include="bin/JSYCRM.dll">
-      <publishTime>11/14/2014 14:01:30</publishTime>
+      <publishTime>11/17/2014 09:40:01</publishTime>
     </File>
     <File Include="bin/Microsoft.Web.Infrastructure.dll">
       <publishTime>11/12/2014 11:48:34</publishTime>
@@ -429,7 +429,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/12/2014 11:45:02</publishTime>
     </File>
     <File Include="Scripts/kindeditor-all-min.js">
-      <publishTime>11/14/2014 14:01:17</publishTime>
+      <publishTime>11/17/2014 09:36:19</publishTime>
     </File>
     <File Include="Scripts/lang/en.js">
       <publishTime>11/12/2014 11:45:03</publishTime>
@@ -1263,7 +1263,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/12/2014 11:45:12</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>11/14/2014 13:45:32</publishTime>
+      <publishTime>11/17/2014 09:40:01</publishTime>
     </File>
   </ItemGroup>
 </Project>
