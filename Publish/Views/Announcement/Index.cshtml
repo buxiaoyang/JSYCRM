@@ -64,8 +64,8 @@
                                                 @{
                                                     if (ViewBag.page > 1)
                                                     {
-                                                    <li><a href="~/Announcement/Index?page=1&search=@(Url.Encode(ViewBag.search))">首页</a></li>
-                                                    <li><a href="~/Announcement/Index?page=@(ViewBag.page - 1)&search=@(Url.Encode(ViewBag.search))">« 上一页</a></li>
+                                                    <li><a href="~/Announcement/Index?page=1&search=@(HttpUtility.UrlEncode((string)ViewBag.search))">首页</a></li>
+                                                    <li><a href="~/Announcement/Index?page=@(ViewBag.page - 1)&search=@(HttpUtility.UrlEncode((string)ViewBag.search))">« 上一页</a></li>
                                                     }
                                                     else
                                                     {
@@ -74,8 +74,8 @@
                                                     }
                                                     if (ViewBag.page < ViewBag.pageNum)
                                                     {
-                                                    <li><a href="~/Announcement/Index?page=@(ViewBag.page + 1)&search=@(Url.Encode(ViewBag.search))">下一页 »</a></li>
-                                                    <li><a href="~/Announcement/Index?page=@(ViewBag.pageNum)&search=@(Url.Encode(ViewBag.search))">末页</a></li>
+                                                    <li><a href="~/Announcement/Index?page=@(ViewBag.page + 1)&search=@(HttpUtility.UrlEncode((string)ViewBag.search))">下一页 »</a></li>
+                                                    <li><a href="~/Announcement/Index?page=@(ViewBag.pageNum)&search=@(HttpUtility.UrlEncode((string)ViewBag.search))">末页</a></li>
                                                     }
                                                     else
                                                     {
@@ -94,11 +94,11 @@
                                                 {
                                                     if (i == ViewBag.page)
                                                     {
-                                                <option value="~/Announcement/Index?page=@(i)&search=@(Url.Encode(ViewBag.search))" selected="selected">@(i)</option> 
+                                                <option value="~/Announcement/Index?page=@(i)&search=@(HttpUtility.UrlEncode((string)ViewBag.search))" selected="selected">@(i)</option> 
                                                     }
                                                     else
                                                     { 
-                                                <option value="~/Announcement/Index?page=@(i)&search=@(Url.Encode(ViewBag.search))">@(i)</option> 
+                                                <option value="~/Announcement/Index?page=@(i)&search=@(HttpUtility.UrlEncode((string)ViewBag.search))">@(i)</option> 
                                                     }
                                                 }    
                                             }

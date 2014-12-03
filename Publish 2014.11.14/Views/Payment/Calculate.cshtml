@@ -54,7 +54,7 @@
         <div class="pull-right">
             <div class="btn-group">
                 <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><i class="icon-wrench"></i>&nbsp; 导入导出<span class="caret"></span></button><ul class="dropdown-menu">
-                    <li><a href="~/Payment/ExportCalculate?area=@(ViewBag.area)&company=@(ViewBag.company)" onclick="return window.confirm(&quot;您确定要导出数据吗 ?&quot;);" class="link"><i class="icon-download"></i>导出数据</a></li>
+                    <li><a href="~/Payment/ExportCalculate?area=@(HttpUtility.UrlEncode((string)ViewBag.area))&company=@(HttpUtility.UrlEncode((string)ViewBag.company))" onclick="return window.confirm(&quot;您确定要导出数据吗 ?&quot;);" class="link"><i class="icon-download"></i>导出数据</a></li>
                 </ul>
             </div>
         </div>

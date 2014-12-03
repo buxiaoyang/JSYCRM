@@ -13,21 +13,21 @@
         @{
             if (ViewBag.Name == "分公司")
             {
-                <li class="active"><a href="~/Parameter/Index?Name=@(Url.Encode("分公司"))">分公司管理</a></li>
-                <li><a href="~/Parameter/Index?Name=@(Url.Encode("职位"))">职位管理</a></li>
-                <li><a href="~/Parameter/Index?Name=@(Url.Encode("地区"))">地区管理</a></li>
+                <li class="active"><a href="~/Parameter/Index?Name=@(HttpUtility.UrlEncode((string)"分公司"))">分公司管理</a></li>
+                <li><a href="~/Parameter/Index?Name=@(HttpUtility.UrlEncode((string)"职位"))">职位管理</a></li>
+                <li><a href="~/Parameter/Index?Name=@(HttpUtility.UrlEncode((string)"地区"))">地区管理</a></li>
             }
             else if (ViewBag.Name == "职位")
             {
-                <li><a href="~/Parameter/Index?Name=@(Url.Encode("分公司"))">分公司管理</a></li>
-                <li class="active"><a href="~/Parameter/Index?Name=@(Url.Encode("职位"))">职位管理</a></li>
-                <li><a href="~/Parameter/Index?Name=@(Url.Encode("地区"))">地区管理</a></li>
+                <li><a href="~/Parameter/Index?Name=@(HttpUtility.UrlEncode((string)"分公司"))">分公司管理</a></li>
+                <li class="active"><a href="~/Parameter/Index?Name=@(HttpUtility.UrlEncode((string)"职位"))">职位管理</a></li>
+                <li><a href="~/Parameter/Index?Name=@(HttpUtility.UrlEncode((string)"地区"))">地区管理</a></li>
             }
             else
             {
-                <li><a href="~/Parameter/Index?Name=@(Url.Encode("分公司"))">分公司管理</a></li>
-                <li><a href="~/Parameter/Index?Name=@(Url.Encode("职位"))">职位管理</a></li>
-                <li class="active"><a href="~/Parameter/Index?Name=@(Url.Encode("地区"))">地区管理</a></li>
+                <li><a href="~/Parameter/Index?Name=@(HttpUtility.UrlEncode((string)"分公司"))">分公司管理</a></li>
+                <li><a href="~/Parameter/Index?Name=@(HttpUtility.UrlEncode((string)"职位"))">职位管理</a></li>
+                <li class="active"><a href="~/Parameter/Index?Name=@(HttpUtility.UrlEncode((string)"地区"))">地区管理</a></li>
             }
         }
         
@@ -41,7 +41,7 @@
             <div class="bulk-actions align-left">
                 <div class="pull-left"><a style="margin-right: 5px;" id="delete" class="btn"><i class="icon-remove"></i>&nbsp;删除</a></div>
             </div>
-            <div class="pull-right"><a class="btn btn-primary" href="~/Parameter/Create?Name=@(Url.Encode(ViewBag.Name))"><i class="icon-plus"></i>&nbsp; 新建@(ViewBag.Name) </a></div>
+            <div class="pull-right"><a class="btn btn-primary" href="~/Parameter/Create?Name=@(HttpUtility.UrlEncode((string)ViewBag.Name))"><i class="icon-plus"></i>&nbsp; 新建@(ViewBag.Name) </a></div>
         </div>
         <div class="span12">
             <form id="form1" method="Post">
@@ -68,7 +68,7 @@
                                     <td>@Html.DisplayFor(modelItem => item.DESCRIPTION)</td>
                                     <td>@Html.DisplayFor(modelItem => item.CREATE_USER)</td>
                                     <td><notempty name="vo.update_time">@Html.DisplayFor(modelItem => item.CREATE_DATETIME)</notempty></td>
-                                    <td><a href="~/Parameter/Edit?Name=@(Url.Encode(ViewBag.Name))&ID=@item.ID">编辑</a></td>
+                                    <td><a href="~/Parameter/Edit?Name=@(HttpUtility.UrlEncode((string)ViewBag.Name))&ID=@item.ID">编辑</a></td>
                                 </tr>
                             }
                             if (Model.Count() == 0)
@@ -92,7 +92,7 @@
         });
         $('#delete').click(function () {
             if (confirm("确定要删除吗？")) {
-                $("#form1").attr('action', 'Delete?Name=@(Url.Encode(ViewBag.Name))');
+                $("#form1").attr('action', 'Delete?Name=@(HttpUtility.UrlEncode((string)ViewBag.Name))');
                 $("#form1").submit();
             }
         });
