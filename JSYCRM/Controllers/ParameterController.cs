@@ -14,7 +14,8 @@ namespace JSYCRM.Controllers
 
         public ActionResult Index(String Name, String message)
         {
-            Name = HttpUtility.UrlDecode(Name, System.Text.Encoding.UTF8);
+            Name = HttpUtility.UrlDecode(Name);
+            message = HttpUtility.UrlDecode(message);
             if (Name == "" || Name == null)
             {
                 ViewBag.Name = "分公司";
@@ -35,7 +36,7 @@ namespace JSYCRM.Controllers
         [HttpPost]
         public ActionResult Delete(String Name, FormCollection collection)
         {
-            Name = HttpUtility.UrlDecode(Name, System.Text.Encoding.UTF8);
+            Name = HttpUtility.UrlDecode(Name);
             try
             {
                 String IDlist = collection["parameter_id[]"];
@@ -43,17 +44,17 @@ namespace JSYCRM.Controllers
                 IDlist = "'" + IDlist + "'";
                 DAL.z_parameter dal_z_parameter = new DAL.z_parameter();
                 dal_z_parameter.DeleteList(IDlist);
-                return RedirectToAction("Index", new { Name = Name, message = "删除成功" });   
+                return RedirectToAction("Index", new { Name = HttpUtility.UrlEncode(Name), message = HttpUtility.UrlEncode("删除成功") });   
             }
             catch
             {
-                return RedirectToAction("Index", new { Name = Name, message = "删除失败" });   
+                return RedirectToAction("Index", new { Name = HttpUtility.UrlEncode(Name), message = HttpUtility.UrlEncode("删除失败") });   
             }
         }
 
         public ActionResult Create(String Name)
         {
-            Name = HttpUtility.UrlDecode(Name, System.Text.Encoding.UTF8);
+            Name = HttpUtility.UrlDecode(Name);
             ViewBag.Name = Name;
             return View();
         }
@@ -62,7 +63,7 @@ namespace JSYCRM.Controllers
         [HttpPost]
         public ActionResult Create(String Name, FormCollection collection)
         {
-            Name = HttpUtility.UrlDecode(Name, System.Text.Encoding.UTF8);
+            Name = HttpUtility.UrlDecode(Name);
             try
             {
                 String VALUE = collection["VALUE"].Trim();
@@ -87,7 +88,7 @@ namespace JSYCRM.Controllers
                 model_z_parameter.DELETE_FLG = "0";
                 DAL.z_parameter dal_z_parameter = new DAL.z_parameter();
                 dal_z_parameter.Add(model_z_parameter);
-                return RedirectToAction("Index", new { Name = Name, message =  "新建成功"});       
+                return RedirectToAction("Index", new { Name = HttpUtility.UrlEncode(Name), message =  HttpUtility.UrlEncode("新建成功")});       
             }
             catch
             {
@@ -99,7 +100,7 @@ namespace JSYCRM.Controllers
 
         public ActionResult Edit(String Name, String ID)
         {
-            Name = HttpUtility.UrlDecode(Name, System.Text.Encoding.UTF8);
+            Name = HttpUtility.UrlDecode(Name);
             ViewBag.Name = Name;
             DAL.z_parameter dal_z_parameter = new DAL.z_parameter();
             Models.z_parameter model_z_parameter = dal_z_parameter.GetModel(new Guid(ID));
@@ -109,7 +110,7 @@ namespace JSYCRM.Controllers
         [HttpPost]
         public ActionResult Edit(String Name, String ID, FormCollection collection)
         {
-            Name = HttpUtility.UrlDecode(Name, System.Text.Encoding.UTF8);
+            Name = HttpUtility.UrlDecode(Name);
             try
             {
                 DAL.z_parameter dal_z_parameter = new DAL.z_parameter();
@@ -127,7 +128,7 @@ namespace JSYCRM.Controllers
                 model_z_parameter.UPDATE_USER_ID = ViewBag.model_z_user.ID;
                 model_z_parameter.UPDATE_DATETIME = DateTime.Now;
                 dal_z_parameter.Update(model_z_parameter);
-                return RedirectToAction("Index", new { Name = Name, message = "编辑成功" });
+                return RedirectToAction("Index", new { Name = HttpUtility.UrlEncode(Name), message = HttpUtility.UrlEncode("编辑成功") });
             }
             catch
             {

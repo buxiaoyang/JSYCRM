@@ -128,7 +128,7 @@
 				        <div class="btn-group">
                             <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><i class="icon-wrench"></i>&nbsp; 工友工具<span class="caret"></span></button><ul class="dropdown-menu">
                                 <li><a href="~/WorkerPool/ImportWorker" id="import_excel" class="link"><i class="icon-down"><i class="icon-upload"></i>导入工友</i></a></li>
-                                <li><a href="~/WorkerPool/ExportWorker?page=@(ViewBag.page)&field=@(ViewBag.field)&condition=@(ViewBag.condition)&search=@(Url.Encode(ViewBag.search))&by=@(ViewBag.by)" onclick="return window.confirm(&quot;您确定要导出工友吗 ?&quot;);" class="link"><i class="icon-download"></i>导出工友</a></li>
+                                <li><a href="~/WorkerPool/ExportWorker?page=@(ViewBag.page)&field=@(ViewBag.field)&condition=@(ViewBag.condition)&search=@(HttpUtility.UrlEncode((string)ViewBag.search))&by=@(ViewBag.by)" onclick="return window.confirm(&quot;您确定要导出工友吗 ?&quot;);" class="link"><i class="icon-download"></i>导出工友</a></li>
                             </ul>
                         </div>
                     </div>
@@ -164,8 +164,8 @@
                                                 @{
                                                     if (ViewBag.page > 1)
                                                     {
-                                                    <li><a href="~/WorkerPool/Index?page=1&field=@(ViewBag.field)&condition=@(ViewBag.condition)&search=@(Url.Encode(ViewBag.search))&by=@(ViewBag.by)">首页</a></li>
-                                                    <li><a href="~/WorkerPool/Index?page=@(ViewBag.page - 1)&field=@(ViewBag.field)&condition=@(ViewBag.condition)&search=@(Url.Encode(ViewBag.search))&by=@(ViewBag.by)">« 上一页</a></li>
+                                                    <li><a href="~/WorkerPool/Index?page=1&field=@(ViewBag.field)&condition=@(ViewBag.condition)&search=@(HttpUtility.UrlEncode((string)ViewBag.search))&by=@(ViewBag.by)">首页</a></li>
+                                                    <li><a href="~/WorkerPool/Index?page=@(ViewBag.page - 1)&field=@(ViewBag.field)&condition=@(ViewBag.condition)&search=@(HttpUtility.UrlEncode((string)ViewBag.search))&by=@(ViewBag.by)">« 上一页</a></li>
                                                     }
                                                     else
                                                     {
@@ -174,8 +174,8 @@
                                                     }
                                                     if (ViewBag.page < ViewBag.pageNum)
                                                     {
-                                                    <li><a href="~/WorkerPool/Index?page=@(ViewBag.page + 1)&field=@(ViewBag.field)&condition=@(ViewBag.condition)&search=@(Url.Encode(ViewBag.search))&by=@(ViewBag.by)">下一页 »</a></li>
-                                                    <li><a href="~/WorkerPool/Index?page=@(ViewBag.pageNum)&field=@(ViewBag.field)&condition=@(ViewBag.condition)&search=@(Url.Encode(ViewBag.search))&by=@(ViewBag.by)">末页</a></li>
+                                                    <li><a href="~/WorkerPool/Index?page=@(ViewBag.page + 1)&field=@(ViewBag.field)&condition=@(ViewBag.condition)&search=@(HttpUtility.UrlEncode((string)ViewBag.search))&by=@(ViewBag.by)">下一页 »</a></li>
+                                                    <li><a href="~/WorkerPool/Index?page=@(ViewBag.pageNum)&field=@(ViewBag.field)&condition=@(ViewBag.condition)&search=@(HttpUtility.UrlEncode((string)ViewBag.search))&by=@(ViewBag.by)">末页</a></li>
                                                     }
                                                     else
                                                     {
@@ -194,11 +194,11 @@
                                                 {
                                                     if (i == ViewBag.page)
                                                     {
-                                                <option value="~/WorkerPool/Index?page=@(i)&field=@(ViewBag.field)&condition=@(ViewBag.condition)&search=@(Url.Encode(ViewBag.search))&by=@(ViewBag.by)" selected="selected">@(i)</option> 
+                                                <option value="~/WorkerPool/Index?page=@(i)&field=@(ViewBag.field)&condition=@(ViewBag.condition)&search=@(HttpUtility.UrlEncode((string)ViewBag.search))&by=@(ViewBag.by)" selected="selected">@(i)</option> 
                                                     }
                                                     else
                                                     { 
-                                                <option value="~/WorkerPool/Index?page=@(i)&field=@(ViewBag.field)&condition=@(ViewBag.condition)&search=@(Url.Encode(ViewBag.search))&by=@(ViewBag.by)">@(i)</option> 
+                                                <option value="~/WorkerPool/Index?page=@(i)&field=@(ViewBag.field)&condition=@(ViewBag.condition)&search=@(HttpUtility.UrlEncode((string)ViewBag.search))&by=@(ViewBag.by)">@(i)</option> 
                                                     }
                                                 }    
                                             }
@@ -235,7 +235,7 @@
                                         {
                                             <a href="~/WorkerPool/Edit/@(item.ID)">编辑</a>   
                                         }&nbsp;                                        
-                                        <a href="~/WorkerPool/Draw/@(item.ID)?page=@(ViewBag.page)&field=@(ViewBag.field)&condition=@(ViewBag.condition)&search=@(Url.Encode(ViewBag.search))&by=@(ViewBag.by)">领取</a>&nbsp; 
+                                        <a href="~/WorkerPool/Draw/@(item.ID)?page=@(ViewBag.page)&field=@(ViewBag.field)&condition=@(ViewBag.condition)&search=@(HttpUtility.UrlEncode((string)ViewBag.search))&by=@(ViewBag.by)">领取</a>&nbsp; 
                                     </td>
                                 </tr>
                                 }
@@ -275,13 +275,13 @@
             });
             $('#delete').click(function () {
                 if (confirm("确定要删除吗？")) {
-                    $("#form1").attr('action', '/WorkerPool/Delete?page=@(ViewBag.page)&field=@(ViewBag.field)&condition=@(ViewBag.condition)&search=@(Url.Encode(ViewBag.search))&by=@(ViewBag.by)');
+                    $("#form1").attr('action', '/WorkerPool/Delete?page=@(ViewBag.page)&field=@(ViewBag.field)&condition=@(ViewBag.condition)&search=@(HttpUtility.UrlEncode((string)ViewBag.search))&by=@(ViewBag.by)');
                     $("#form1").submit();
                 }
             });
             $('#remove').click(function () {
                 if (confirm("确认要领取吗？")) {
-                    $("#form1").attr('action', '/WorkerPool/Draw?page=@(ViewBag.page)&field=@(ViewBag.field)&condition=@(ViewBag.condition)&search=@(Url.Encode(ViewBag.search))&by=@(ViewBag.by)');
+                    $("#form1").attr('action', '/WorkerPool/Draw?page=@(ViewBag.page)&field=@(ViewBag.field)&condition=@(ViewBag.condition)&search=@(HttpUtility.UrlEncode((string)ViewBag.search))&by=@(ViewBag.by)');
                     $("#form1").submit();
                 }
             });

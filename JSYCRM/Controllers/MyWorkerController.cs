@@ -18,7 +18,8 @@ namespace JSYCRM.Controllers
 
         public ActionResult Index(String message, String page, String field, String condition, String search, String by)
         {
-            message = HttpUtility.UrlDecode(message, System.Text.Encoding.UTF8);
+            message = HttpUtility.UrlDecode(message);
+            search = HttpUtility.UrlDecode(search);
             int pageNum = Common.Common.getPageNum(page);
             DAL.m_worker dal_m_worker = new DAL.m_worker();
             if (message != null && message != "")
@@ -221,7 +222,7 @@ namespace JSYCRM.Controllers
                 model_m_worker.UPDATE_DATETIME = DateTime.Now;
                 model_m_worker.DELETE_FLG = "0";
                 dal_m_worker.Add(model_m_worker);
-                return RedirectToAction("Index", new { message = "新建成功" });
+                return RedirectToAction("Index", new { message = HttpUtility.UrlEncode("新建成功") });
             }
             catch
             {
@@ -386,7 +387,7 @@ namespace JSYCRM.Controllers
                 model_m_worker.UPDATE_DATETIME = DateTime.Now;
                 model_m_worker.DELETE_FLG = "0";
                 dal_m_worker.Update(model_m_worker);
-                return RedirectToAction("Index", new { message = "编辑成功" });
+                return RedirectToAction("Index", new { message = HttpUtility.UrlEncode("编辑成功") });
             }
             catch
             {
@@ -401,6 +402,7 @@ namespace JSYCRM.Controllers
         [HttpPost]
         public ActionResult Delete(String page, String field, String condition, String search, String by, FormCollection collection)
         {
+            search = HttpUtility.UrlDecode(search);
             try
             {
                 String IDlist = collection["id[]"];
@@ -408,11 +410,11 @@ namespace JSYCRM.Controllers
                 IDlist = "'" + IDlist + "'";
                 DAL.m_worker dal_m_worker = new DAL.m_worker();
                 dal_m_worker.DeleteList(IDlist);
-                return RedirectToAction("Index", new { message = "删除成功", page = page, field = field, condition = condition, search = search, by = by });
+                return RedirectToAction("Index", new { message = HttpUtility.UrlEncode("删除成功"), page = page, field = field, condition = condition, search = search, by = by });
             }
             catch
             {
-                return RedirectToAction("Index", new { message = "删除失败", page = page, field = field, condition = condition, search = search, by = by });
+                return RedirectToAction("Index", new { message = HttpUtility.UrlEncode("删除失败"), page = page, field = field, condition = condition, search = search, by = by });
             }
         }
 
@@ -421,23 +423,25 @@ namespace JSYCRM.Controllers
 
         public ActionResult GiveUp(string id, String page, String field, String condition, String search, String by)
         {
+            search = HttpUtility.UrlDecode(search);
             try
             {
                 DAL.m_worker dal_m_worker = new DAL.m_worker();
                 //dal_m_worker.UpdataStatus(new Guid(id), Common.Variables.WORKER_STATUS_IN_POOL, null);
                 Models.z_user session_model_z_user = (Models.z_user)ViewBag.model_z_user;
                 dal_m_worker.saveHistory(new Guid(id), session_model_z_user.ID);
-                return RedirectToAction("Index", new { message = "放弃成功", page = page, field = field, condition = condition, search = search, by = by });
+                return RedirectToAction("Index", new { message = HttpUtility.UrlEncode("放弃成功"), page = page, field = field, condition = condition, search = search, by = by });
             }
             catch
             {
-                return RedirectToAction("Index", new { message = "放弃失败", page = page, field = field, condition = condition, search = search, by = by });
+                return RedirectToAction("Index", new { message = HttpUtility.UrlEncode("放弃失败"), page = page, field = field, condition = condition, search = search, by = by });
             }
         }
 
         [HttpPost]
         public ActionResult GiveUp(String page, String field, String condition, String search, String by, FormCollection collection)
         {
+            search = HttpUtility.UrlDecode(search);
             try
             {
                 DAL.m_worker dal_m_worker = new DAL.m_worker();
@@ -452,31 +456,33 @@ namespace JSYCRM.Controllers
                 IDlist = "'" + IDlist + "'";
                 dal_m_worker.UpdataStatus(IDlist, Common.Variables.WORKER_STATUS_IN_POOL, null);
                  * */
-                return RedirectToAction("Index", new { message = "放弃成功", page = page, field = field, condition = condition, search = search, by = by });
+                return RedirectToAction("Index", new { message = HttpUtility.UrlEncode("放弃成功"), page = page, field = field, condition = condition, search = search, by = by });
             }
             catch
             {
-                return RedirectToAction("Index", new { message = "放弃失败", page = page, field = field, condition = condition, search = search, by = by });
+                return RedirectToAction("Index", new { message = HttpUtility.UrlEncode("放弃失败"), page = page, field = field, condition = condition, search = search, by = by });
             }
         }
 
         public ActionResult FollowUp(string id, String page, String field, String condition, String search, String by)
         {
+            search = HttpUtility.UrlDecode(search);
             try
             {
                 DAL.m_worker dal_m_worker = new DAL.m_worker();
                 Models.z_user session_model_z_user = (Models.z_user)ViewBag.model_z_user;
                 dal_m_worker.followUp(new Guid(id), session_model_z_user.ID);
-                return RedirectToAction("Index", new { message = "更新最近跟踪时间成功", page = page, field = field, condition = condition, search = search, by = by });
+                return RedirectToAction("Index", new { message = HttpUtility.UrlEncode("更新最近跟踪时间成功"), page = page, field = field, condition = condition, search = search, by = by });
             }
             catch
             {
-                return RedirectToAction("Index", new { message = "更新最近跟踪时间失败", page = page, field = field, condition = condition, search = search, by = by });
+                return RedirectToAction("Index", new { message = HttpUtility.UrlEncode("更新最近跟踪时间失败"), page = page, field = field, condition = condition, search = search, by = by });
             }
         }
 
         public ActionResult ExportWorker(String page, String field, String condition, String search, String by)
         {
+            search = HttpUtility.UrlDecode(search);
             try
             {
                 DAL.m_worker dal_m_worker = new DAL.m_worker();
@@ -490,11 +496,11 @@ namespace JSYCRM.Controllers
                 Response.End();
                 ms.Close();
                 ms.Dispose();
-                return RedirectToAction("Index", new { message = "导出成功", page = page, field = field, condition = condition, search = search, by = by });
+                return RedirectToAction("Index", new { message = HttpUtility.UrlEncode("导出成功"), page = page, field = field, condition = condition, search = search, by = by });
             }
             catch
             {
-                return RedirectToAction("Index", new { message = "导出失败", page = page, field = field, condition = condition, search = search, by = by });
+                return RedirectToAction("Index", new { message = HttpUtility.UrlEncode("导出失败"), page = page, field = field, condition = condition, search = search, by = by });
             }
 
         }

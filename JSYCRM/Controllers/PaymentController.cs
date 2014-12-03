@@ -17,6 +17,7 @@ namespace JSYCRM.Controllers
 
         public ActionResult Index(string area, string associated_user, string start_time, string end_time)
         {
+            area = HttpUtility.UrlDecode(area);
             DAL.m_worker dal_m_worker = new DAL.m_worker();
             Models.z_user session_model_z_user = (Models.z_user)ViewBag.model_z_user;
             //判断是否有管理员和经理权限
@@ -51,6 +52,8 @@ namespace JSYCRM.Controllers
 
         public ActionResult Setting(string area, string company)
         {
+            area = HttpUtility.UrlDecode(area);
+            company = HttpUtility.UrlDecode(company);
             Models.z_user session_model_z_user = (Models.z_user)ViewBag.model_z_user;
             DAL.m_return_fee_rule dal_m_return_fee_rule = new DAL.m_return_fee_rule();
             DAL.z_parameter dal_z_parameter = new DAL.z_parameter();
@@ -75,6 +78,8 @@ namespace JSYCRM.Controllers
         [HttpPost]
         public ActionResult Setting(string areaSave, string companySave, FormCollection collection)
         {
+            areaSave = HttpUtility.UrlDecode(areaSave);
+            companySave = HttpUtility.UrlDecode(companySave);
             Models.z_user session_model_z_user = (Models.z_user)ViewBag.model_z_user;
             DAL.m_return_fee_rule dal_m_return_fee_rule = new DAL.m_return_fee_rule();
             dal_m_return_fee_rule.DeleteByUserId(new Guid(companySave), new Guid(areaSave));
@@ -128,7 +133,9 @@ namespace JSYCRM.Controllers
 
         public ActionResult Calculate(string area, string company, string message)
         {
-            message = HttpUtility.UrlDecode(message, System.Text.Encoding.UTF8);
+            area = HttpUtility.UrlDecode(area);
+            company = HttpUtility.UrlDecode(company);
+            message = HttpUtility.UrlDecode(message);
             DAL.z_parameter dal_z_parameter = new DAL.z_parameter();
             List<Models.z_parameter> area_list = dal_z_parameter.GetModelList("地区");
             List<Models.z_parameter> company_list = dal_z_parameter.GetModelList("分公司");
@@ -154,6 +161,8 @@ namespace JSYCRM.Controllers
 
         public ActionResult ExportCalculate(string area, string company)
         {
+            area = HttpUtility.UrlDecode(area);
+            company = HttpUtility.UrlDecode(company);
             try
             {
                 Models.z_user session_model_z_user = (Models.z_user)ViewBag.model_z_user;
@@ -167,11 +176,11 @@ namespace JSYCRM.Controllers
                 Response.End();
                 ms.Close();
                 ms.Dispose();
-                return RedirectToAction("Calculate", new { message = "导出成功", area = area });
+                return RedirectToAction("Calculate", new { message = HttpUtility.UrlEncode("导出成功"), area = HttpUtility.UrlEncode(area) });
             }
             catch
             {
-                return RedirectToAction("Calculate", new { message = "导出失败", area = area });
+                return RedirectToAction("Calculate", new { message = HttpUtility.UrlEncode("导出失败"), area = HttpUtility.UrlEncode(area) });
             }
         }
     }

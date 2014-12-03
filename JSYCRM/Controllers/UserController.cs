@@ -15,7 +15,8 @@ namespace JSYCRM.Controllers
 
         public ActionResult Index(String message, String page, String name)
         {
-            message = HttpUtility.UrlDecode(message, System.Text.Encoding.UTF8);
+            message = HttpUtility.UrlDecode(message);
+            name = HttpUtility.UrlDecode(name);
             int pageNum = Common.Common.getPageNum(page);
             DAL.z_user dal_z_user = new DAL.z_user();
             if (message != null && message != "")
@@ -126,7 +127,7 @@ namespace JSYCRM.Controllers
                 model_z_user.DELETE_FLG = "0";
                 dal_z_user.Add(model_z_user);
                 dal_z_r_user_role.Add(model_z_user.ID.ToString(), ROLE);
-                return RedirectToAction("Index", new { message = "新建成功" });
+                return RedirectToAction("Index", new { message = HttpUtility.UrlEncode("新建成功") });
             }
             catch(Exception ex)
             {
@@ -215,7 +216,7 @@ namespace JSYCRM.Controllers
                 dal_z_user.Update(model_z_user);
                 dal_z_r_user_role.DeleteRoleByUserID(model_z_user.ID.ToString());
                 dal_z_r_user_role.Add(model_z_user.ID.ToString(), ROLE);
-                return RedirectToAction("Index", new { message = "编辑成功" });
+                return RedirectToAction("Index", new { message = HttpUtility.UrlEncode("编辑成功") });
             }
             catch
             {
@@ -236,11 +237,11 @@ namespace JSYCRM.Controllers
                 IDlist = "'" + IDlist + "'";
                 DAL.z_user dal_z_user = new DAL.z_user();
                 dal_z_user.DeleteList(IDlist);
-                return RedirectToAction("Index", new { message = "删除成功" });  
+                return RedirectToAction("Index", new { message = HttpUtility.UrlEncode("删除成功") });  
             }
             catch
             {
-                return RedirectToAction("Index", new { message = "删除失败" });
+                return RedirectToAction("Index", new { message = HttpUtility.UrlEncode("删除失败") });
             }
         }
     }

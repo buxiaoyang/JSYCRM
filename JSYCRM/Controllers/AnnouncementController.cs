@@ -15,7 +15,8 @@ namespace JSYCRM.Controllers
 
         public ActionResult Index(String message, String page, String search)
         {
-            message = HttpUtility.UrlDecode(message, System.Text.Encoding.UTF8);
+            message = HttpUtility.UrlDecode(message);
+            search = HttpUtility.UrlDecode(search);
             int pageNum = Common.Common.getPageNum(page);
             DAL.m_announcement dal_m_announcement = new DAL.m_announcement();
             if (message != null && message != "")
@@ -77,7 +78,7 @@ namespace JSYCRM.Controllers
                 model_m_announcement.DELETE_FLG = "0";
                 DAL.m_announcement dal_m_announcement = new DAL.m_announcement();
                 dal_m_announcement.Add(model_m_announcement);
-                return RedirectToAction("Index", new { message = "新建成功" });
+                return RedirectToAction("Index", new { message = HttpUtility.UrlEncode("新建成功") });
             }
             catch
             {
@@ -115,7 +116,7 @@ namespace JSYCRM.Controllers
                 model_m_announcement.UPDATE_USER_ID = session_model_z_user.ID;
                 model_m_announcement.UPDATE_DATETIME = DateTime.Now;
                 dal_m_announcement.Update(model_m_announcement);
-                return RedirectToAction("Index", new { message = "编辑成功" });
+                return RedirectToAction("Index", new { message = HttpUtility.UrlEncode("编辑成功") });
             }
             catch
             {
@@ -134,11 +135,11 @@ namespace JSYCRM.Controllers
                 IDlist = "'" + IDlist + "'";
                 DAL.m_announcement dal_m_announcement = new DAL.m_announcement();
                 dal_m_announcement.DeleteList(IDlist);
-                return RedirectToAction("Index", new { message = "删除成功" });
+                return RedirectToAction("Index", new { message = HttpUtility.UrlEncode("删除成功") });
             }
             catch
             {
-                return RedirectToAction("Index", new { message = "删除失败" });
+                return RedirectToAction("Index", new { message = HttpUtility.UrlEncode("删除失败") });
             }
         }
 
@@ -148,11 +149,11 @@ namespace JSYCRM.Controllers
             {
                 DAL.m_announcement dal_m_announcement = new DAL.m_announcement();
                 dal_m_announcement.Delete(new Guid(id));
-                return RedirectToAction("Index", new { message = "删除成功" });
+                return RedirectToAction("Index", new { message = HttpUtility.UrlEncode("删除成功") });
             }
             catch
             {
-                return RedirectToAction("Index", new { message = "删除失败" });
+                return RedirectToAction("Index", new { message = HttpUtility.UrlEncode("删除失败") });
             }
         }
 
@@ -169,11 +170,11 @@ namespace JSYCRM.Controllers
                 Models.m_announcement model_m_announcement = dal_m_announcement.GetModel(new Guid(id));
                 model_m_announcement.PUBLISH = PUBLISH;
                 dal_m_announcement.Update(model_m_announcement);
-                return RedirectToAction("Index", new { message = "操作成功" });
+                return RedirectToAction("Index", new { message = HttpUtility.UrlEncode("操作成功") });
             }
             catch
             {
-                return RedirectToAction("Index", new { message = "操作失败" });
+                return RedirectToAction("Index", new { message = HttpUtility.UrlEncode("操作失败") });
             }
         }
 
