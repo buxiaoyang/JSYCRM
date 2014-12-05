@@ -75,8 +75,8 @@
                                                 @{
                                                     if (ViewBag.page > 1)
                                                     {
-                                                    <li><a href="~/User/Index?page=1&name=@(HttpUtility.UrlEncode((string)ViewBag.name))">首页</a></li>
-                                                    <li><a href="~/User/Index?page=@(ViewBag.page - 1)&name=@(HttpUtility.UrlEncode((string)ViewBag.name))">« 上一页</a></li>
+                                                    <li><a href="~/User/Index?page=1&name=@(HttpUtility.UrlEncode(HttpUtility.UrlEncode((string)ViewBag.name)))">首页</a></li>
+                                                    <li><a href="~/User/Index?page=@(ViewBag.page - 1)&name=@(HttpUtility.UrlEncode(HttpUtility.UrlEncode((string)ViewBag.name)))">« 上一页</a></li>
                                                     }
                                                     else
                                                     {
@@ -85,8 +85,8 @@
                                                     }
                                                     if (ViewBag.page < ViewBag.pageNum)
                                                     {
-                                                    <li><a href="~/User/Index?page=@(ViewBag.page + 1)&name=@(HttpUtility.UrlEncode((string)ViewBag.name))">下一页 »</a></li>
-                                                    <li><a href="~/User/Index?page=@(ViewBag.pageNum)&name=@(HttpUtility.UrlEncode((string)ViewBag.name))">末页</a></li>
+                                                    <li><a href="~/User/Index?page=@(ViewBag.page + 1)&name=@(HttpUtility.UrlEncode(HttpUtility.UrlEncode((string)ViewBag.name)))">下一页 »</a></li>
+                                                    <li><a href="~/User/Index?page=@(ViewBag.pageNum)&name=@(HttpUtility.UrlEncode(HttpUtility.UrlEncode((string)ViewBag.name)))">末页</a></li>
                                                     }
                                                     else
                                                     {
@@ -105,11 +105,11 @@
                                                 {
                                                     if (i == ViewBag.page)
                                                     {
-                                                <option value="~/User/Index?page=@(i)&name=@(HttpUtility.UrlEncode((string)ViewBag.name))" selected="selected">@(i)</option> 
+                                                <option value="~/User/Index?page=@(i)&name=@(HttpUtility.UrlEncode(HttpUtility.UrlEncode((string)ViewBag.name)))" selected="selected">@(i)</option> 
                                                     }
                                                     else
                                                     { 
-                                                <option value="~/User/Index?page=@(i)&name=@(HttpUtility.UrlEncode((string)ViewBag.name))">@(i)</option> 
+                                                <option value="~/User/Index?page=@(i)&name=@(HttpUtility.UrlEncode(HttpUtility.UrlEncode((string)ViewBag.name)))">@(i)</option> 
                                                     }
                                                 }    
                                             }
