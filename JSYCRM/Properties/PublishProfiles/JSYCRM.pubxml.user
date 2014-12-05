@@ -18,7 +18,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/12/2014 11:48:42</publishTime>
     </File>
     <File Include="bin/JSYCRM.dll">
-      <publishTime>12/05/2014 12:44:17</publishTime>
+      <publishTime>12/05/2014 13:24:38</publishTime>
     </File>
     <File Include="bin/Microsoft.Web.Infrastructure.dll">
       <publishTime>11/12/2014 11:48:34</publishTime>

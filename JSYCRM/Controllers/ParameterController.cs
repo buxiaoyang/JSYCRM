@@ -14,8 +14,8 @@ namespace JSYCRM.Controllers
 
         public ActionResult Index(String Name, String message)
         {
-            Name = HttpUtility.UrlDecode(Name);
-            message = HttpUtility.UrlDecode(message);
+            Name = HttpUtility.UrlDecode(Name, System.Text.Encoding.GetEncoding("GB2312"));
+            message = HttpUtility.UrlDecode(message, System.Text.Encoding.GetEncoding("GB2312"));
             if (Name == "" || Name == null)
             {
                 ViewBag.Name = "分公司";
@@ -36,7 +36,7 @@ namespace JSYCRM.Controllers
         [HttpPost]
         public ActionResult Delete(String Name, FormCollection collection)
         {
-            Name = HttpUtility.UrlDecode(Name);
+            Name = HttpUtility.UrlDecode(Name, System.Text.Encoding.GetEncoding("GB2312"));
             try
             {
                 String IDlist = collection["parameter_id[]"];
@@ -54,7 +54,7 @@ namespace JSYCRM.Controllers
 
         public ActionResult Create(String Name)
         {
-            Name = HttpUtility.UrlDecode(Name);
+            Name = HttpUtility.UrlDecode(Name, System.Text.Encoding.GetEncoding("GB2312"));
             ViewBag.Name = Name;
             return View();
         }
@@ -63,7 +63,7 @@ namespace JSYCRM.Controllers
         [HttpPost]
         public ActionResult Create(String Name, FormCollection collection)
         {
-            Name = HttpUtility.UrlDecode(Name);
+            Name = HttpUtility.UrlDecode(Name, System.Text.Encoding.GetEncoding("GB2312"));
             try
             {
                 String VALUE = collection["VALUE"].Trim();
@@ -100,7 +100,7 @@ namespace JSYCRM.Controllers
 
         public ActionResult Edit(String Name, String ID)
         {
-            Name = HttpUtility.UrlDecode(Name);
+            Name = HttpUtility.UrlDecode(Name, System.Text.Encoding.GetEncoding("GB2312"));
             ViewBag.Name = Name;
             DAL.z_parameter dal_z_parameter = new DAL.z_parameter();
             Models.z_parameter model_z_parameter = dal_z_parameter.GetModel(new Guid(ID));
@@ -110,7 +110,7 @@ namespace JSYCRM.Controllers
         [HttpPost]
         public ActionResult Edit(String Name, String ID, FormCollection collection)
         {
-            Name = HttpUtility.UrlDecode(Name);
+            Name = HttpUtility.UrlDecode(Name, System.Text.Encoding.GetEncoding("GB2312"));
             try
             {
                 DAL.z_parameter dal_z_parameter = new DAL.z_parameter();
