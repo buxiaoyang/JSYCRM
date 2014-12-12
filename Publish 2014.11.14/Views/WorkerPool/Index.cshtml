@@ -165,21 +165,21 @@
                                                     if (ViewBag.page > 1)
                                                     {
                                                     <li><a href="~/WorkerPool/Index?page=1&field=@(ViewBag.field)&condition=@(ViewBag.condition)&search=@(HttpUtility.UrlEncode(HttpUtility.UrlEncode((string)ViewBag.search)))&by=@(ViewBag.by)">首页</a></li>
-                                                    <li><a href="~/WorkerPool/Index?page=@(ViewBag.page - 1)&field=@(ViewBag.field)&condition=@(ViewBag.condition)&search=@(HttpUtility.UrlEncode(HttpUtility.UrlEncode((string)ViewBag.search)))&by=@(ViewBag.by)">« 上一页</a></li>
+                                                    <li><a href="~/WorkerPool/Index?page=@(ViewBag.page - 1)&field=@(ViewBag.field)&condition=@(ViewBag.condition)&search=@(HttpUtility.UrlEncode(HttpUtility.UrlEncode((string)ViewBag.search)))&by=@(ViewBag.by)">&lt; 上一页</a></li>
                                                     }
                                                     else
                                                     {
                                                     <li><span>首页</span></li>
-                                                    <li><span>« 上一页</span></li>
+                                                    <li><span>&lt; 上一页</span></li>
                                                     }
                                                     if (ViewBag.page < ViewBag.pageNum)
                                                     {
-                                                    <li><a href="~/WorkerPool/Index?page=@(ViewBag.page + 1)&field=@(ViewBag.field)&condition=@(ViewBag.condition)&search=@(HttpUtility.UrlEncode(HttpUtility.UrlEncode((string)ViewBag.search)))&by=@(ViewBag.by)">下一页 »</a></li>
+                                                    <li><a href="~/WorkerPool/Index?page=@(ViewBag.page + 1)&field=@(ViewBag.field)&condition=@(ViewBag.condition)&search=@(HttpUtility.UrlEncode(HttpUtility.UrlEncode((string)ViewBag.search)))&by=@(ViewBag.by)">下一页 &gt;</a></li>
                                                     <li><a href="~/WorkerPool/Index?page=@(ViewBag.pageNum)&field=@(ViewBag.field)&condition=@(ViewBag.condition)&search=@(HttpUtility.UrlEncode(HttpUtility.UrlEncode((string)ViewBag.search)))&by=@(ViewBag.by)">末页</a></li>
                                                     }
                                                     else
                                                     {
-                                                    <li><span>下一页 »</span></li>
+                                                    <li><span>下一页 &gt;</span></li>
                                                     <li><span>末页</span></li>
                                                     }
                                                 }
@@ -275,13 +275,13 @@
             });
             $('#delete').click(function () {
                 if (confirm("确定要删除吗？")) {
-                    $("#form1").attr('action', '/WorkerPool/Delete?page=@(ViewBag.page)&field=@(ViewBag.field)&condition=@(ViewBag.condition)&search=@(HttpUtility.UrlEncode(HttpUtility.UrlEncode((string)ViewBag.search)))&by=@(ViewBag.by)');
+                    $("#form1").attr('action', '/JSY/WorkerPool/Delete?page=@(ViewBag.page)&field=@(ViewBag.field)&condition=@(ViewBag.condition)&search=@(HttpUtility.UrlEncode(HttpUtility.UrlEncode((string)ViewBag.search)))&by=@(ViewBag.by)');
                     $("#form1").submit();
                 }
             });
             $('#remove').click(function () {
                 if (confirm("确认要领取吗？")) {
-                    $("#form1").attr('action', '/WorkerPool/Draw?page=@(ViewBag.page)&field=@(ViewBag.field)&condition=@(ViewBag.condition)&search=@(HttpUtility.UrlEncode(HttpUtility.UrlEncode((string)ViewBag.search)))&by=@(ViewBag.by)');
+                    $("#form1").attr('action', '/JSY/WorkerPool/Draw?page=@(ViewBag.page)&field=@(ViewBag.field)&condition=@(ViewBag.condition)&search=@(HttpUtility.UrlEncode(HttpUtility.UrlEncode((string)ViewBag.search)))&by=@(ViewBag.by)');
                     $("#form1").submit();
                 }
             });

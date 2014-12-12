@@ -65,21 +65,21 @@
                                                     if (ViewBag.page > 1)
                                                     {
                                                     <li><a href="~/Announcement/Index?page=1&search=@(HttpUtility.UrlEncode(HttpUtility.UrlEncode((string)ViewBag.search)))">首页</a></li>
-                                                    <li><a href="~/Announcement/Index?page=@(ViewBag.page - 1)&search=@(HttpUtility.UrlEncode(HttpUtility.UrlEncode((string)ViewBag.search)))">« 上一页</a></li>
+                                                    <li><a href="~/Announcement/Index?page=@(ViewBag.page - 1)&search=@(HttpUtility.UrlEncode(HttpUtility.UrlEncode((string)ViewBag.search)))">&lt; 上一页</a></li>
                                                     }
                                                     else
                                                     {
                                                     <li><span>首页</span></li>
-                                                    <li><span>« 上一页</span></li>
+                                                    <li><span>&lt; 上一页</span></li>
                                                     }
                                                     if (ViewBag.page < ViewBag.pageNum)
                                                     {
-                                                    <li><a href="~/Announcement/Index?page=@(ViewBag.page + 1)&search=@(HttpUtility.UrlEncode(HttpUtility.UrlEncode((string)ViewBag.search)))">下一页 »</a></li>
+                                                    <li><a href="~/Announcement/Index?page=@(ViewBag.page + 1)&search=@(HttpUtility.UrlEncode(HttpUtility.UrlEncode((string)ViewBag.search)))">下一页 &gt;</a></li>
                                                     <li><a href="~/Announcement/Index?page=@(ViewBag.pageNum)&search=@(HttpUtility.UrlEncode(HttpUtility.UrlEncode((string)ViewBag.search)))">末页</a></li>
                                                     }
                                                     else
                                                     {
-                                                    <li><span>下一页 »</span></li>
+                                                    <li><span>下一页 &gt;</span></li>
                                                     <li><span>末页</span></li>
                                                     }
                                                 }
