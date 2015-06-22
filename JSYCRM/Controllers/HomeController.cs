@@ -99,7 +99,7 @@ namespace JSYCRM.Controllers
 
             //创建文件夹
             dirPath += "Uploads\\" +  dirName + "\\";
-            string saveUrl = "/JSY/Uploads/" + dirName + "/";
+            string saveUrl = "/Uploads/" + dirName + "/";
             if (!Directory.Exists(dirPath))
             {
                 Directory.CreateDirectory(dirPath);

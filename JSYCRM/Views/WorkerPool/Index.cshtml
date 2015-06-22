@@ -275,13 +275,13 @@
             });
             $('#delete').click(function () {
                 if (confirm("确定要删除吗？")) {
-                    $("#form1").attr('action', '/JSY/WorkerPool/Delete?page=@(ViewBag.page)&field=@(ViewBag.field)&condition=@(ViewBag.condition)&search=@(HttpUtility.UrlEncode(HttpUtility.UrlEncode((string)ViewBag.search)))&by=@(ViewBag.by)');
+                    $("#form1").attr('action', '/WorkerPool/Delete?page=@(ViewBag.page)&field=@(ViewBag.field)&condition=@(ViewBag.condition)&search=@(HttpUtility.UrlEncode(HttpUtility.UrlEncode((string)ViewBag.search)))&by=@(ViewBag.by)');
                     $("#form1").submit();
                 }
             });
             $('#remove').click(function () {
                 if (confirm("确认要领取吗？")) {
-                    $("#form1").attr('action', '/JSY/WorkerPool/Draw?page=@(ViewBag.page)&field=@(ViewBag.field)&condition=@(ViewBag.condition)&search=@(HttpUtility.UrlEncode(HttpUtility.UrlEncode((string)ViewBag.search)))&by=@(ViewBag.by)');
+                    $("#form1").attr('action', '/WorkerPool/Draw?page=@(ViewBag.page)&field=@(ViewBag.field)&condition=@(ViewBag.condition)&search=@(HttpUtility.UrlEncode(HttpUtility.UrlEncode((string)ViewBag.search)))&by=@(ViewBag.by)');
                     $("#form1").submit();
                 }
             });

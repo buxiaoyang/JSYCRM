@@ -67,7 +67,7 @@
                     function setActiveMenu() {
                         var url = window.location.href;
                         url = url.split("/");
-                        url = url[4];
+                        url = url[3];
                         $("#menu_nav").find("a[href*= " + url + "]").parent().attr("class", "active");
                     }
                     setActiveMenu();
