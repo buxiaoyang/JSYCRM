@@ -148,6 +148,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Common\Common.cs" />
     <Compile Include="Common\Encrypt.cs" />
+    <Compile Include="Common\Image.cs" />
     <Compile Include="Common\ValidateCode.cs" />
     <Compile Include="Common\Variables.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -156,6 +157,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ParameterController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
+    <Compile Include="Controllers\SimulatorController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\MyWorkerController.cs" />
     <Compile Include="Controllers\WorkerPoolController.cs" />
@@ -638,6 +640,7 @@
     <Content Include="Views\Payment\Calculate.cshtml" />
     <Content Include="Views\ImportWorker\Interview.cshtml" />
     <Content Include="Views\ImportWorker\InWork.cshtml" />
+    <Content Include="Views\Simulator\Print.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -657,7 +660,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>1546</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:58365/JSY/</IISUrl>
+          <IISUrl>http://localhost:58365/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

@@ -8,7 +8,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <LastUsedBuildConfiguration>Release</LastUsedBuildConfiguration>
     <LastUsedPlatform>Any CPU</LastUsedPlatform>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-    <_PublishTargetUrl>C:\Users\bux\Projects Dev\GitHub\JSYCRM\trunk\Publish</_PublishTargetUrl>
+    <_PublishTargetUrl>C:\Users\bux\Projects Dev\Publish\JSYCRM</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/Antlr3.Runtime.dll">
@@ -18,7 +18,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/12/2014 11:48:42</publishTime>
     </File>
     <File Include="bin/JSYCRM.dll">
-      <publishTime>06/22/2015 14:15:43</publishTime>
+      <publishTime>10/21/2015 13:35:50</publishTime>
     </File>
     <File Include="bin/Microsoft.Web.Infrastructure.dll">
       <publishTime>11/12/2014 11:48:34</publishTime>
@@ -1229,6 +1229,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Views/Shared/_OperaMessage.cshtml">
       <publishTime>11/12/2014 11:45:12</publishTime>
     </File>
+    <File Include="Views/Simulator/Print.cshtml">
+      <publishTime>10/21/2015 13:36:37</publishTime>
+    </File>
     <File Include="Views/User/Create.cshtml">
       <publishTime>11/12/2014 11:45:11</publishTime>
     </File>
@@ -1263,7 +1266,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/12/2014 11:45:12</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>06/22/2015 14:15:44</publishTime>
+      <publishTime>10/21/2015 11:11:24</publishTime>
     </File>
   </ItemGroup>
 </Project>
