@@ -9,16 +9,86 @@ using System.Web;
 
 namespace JSYCRM.Common
 {
+    public class Tile
+    {
+        public Tile(String name, String metal, String color, String colorN)
+        {
+            this.name = name;
+            this.metal = metal;
+            this.color = color;
+            this.colorN = colorN;
+            this.quantity = 1;
+        }
+        public String name { get; set; }
+        public String metal { get; set; }
+        public String color { get; set; }
+        public String colorN { get; set; }
+        public Int16 quantity { get; set; }
+
+    }
+
     public class Image
     {
-        public static Bitmap BuildImageFromJsonSource(String json)
+        public static Bitmap BuildImageFromJsonSource(String json, Bitmap imgFooter)
         {
             Dictionary<String, Bitmap> dictImage = new Dictionary<string, Bitmap>();
+            Dictionary<String, Tile> dictTile = new Dictionary<string, Tile>();
 
             dynamic jsonObject = JsonConvert.DeserializeObject(json);
-            int imageWidth = 120;
-            int imageHeight = 120;
-            Bitmap imgTarget = TransparentToColor(new Bitmap(jsonObject.Count * imageWidth, jsonObject.Count * imageHeight), "#FFFFFF");
+            //get tile information
+            for (int i = 0; i < jsonObject.Count; i++)
+            {
+                for (int j = 0; j < jsonObject[i].Count; j++)
+                {
+                    if (jsonObject[i][j].Value == null)
+                    {
+                        String name = jsonObject[i][j].Name.Value;
+                        String metal = jsonObject[i][j].Metal.Value;
+                        String color = jsonObject[i][j].Color.Value;
+                        String colorN = jsonObject[i][j].ColorN.Value;
+                        String key = name + metal + color;
+                        if(dictTile.ContainsKey(key))
+                        {
+                            dictTile[key].quantity ++;
+                        }
+                        else
+                        {
+                            dictTile.Add(key, new Tile(name, metal, color, colorN));
+                        }
+                    }
+                }
+            }
+            //caculater the image size
+            int imageTileWidth = (imgFooter.Width - 140) / jsonObject.Count;
+            int imageTileHeight = imageTileWidth;
+            int imageTargetWidth = imgFooter.Width;
+            int imageTargetHeight = imgFooter.Width + imgFooter.Height + 70 + dictTile.Keys.Count * 28;
+            //create target image
+            Bitmap imgTarget = TransparentToColor(new Bitmap(imageTargetWidth, imageTargetHeight), "#FFFFFF");
+            //generate tile table to target image
+            using (Graphics g = Graphics.FromImage(imgTarget))
+            {
+                Pen pen = new Pen(System.Drawing.ColorTranslator.FromHtml("#3B3E45"));
+                pen.Width = 1;
+
+                //Draw vertical lines          
+                for (int i = 0; i <= dictTile.Keys.Count; i++)
+                {
+                    g.DrawLine(pen, 70, imgFooter.Width + 28 * i, imgFooter.Width - 70, imgFooter.Width + 28 * i);
+                } 
+
+                //Draw horizontal lines
+                /*
+                for (int i = 0; i <= dictTile.Keys.Count; i++)
+                {
+                    g.DrawLine(pen, (i * 28), 0, i * 28, 28 * dictTile.Keys.Count);
+                }
+                 * */
+            }
+            //copy footer to target image
+            imgTarget = CombineImage(imgFooter, imgTarget, 0, imageTargetHeight - imgFooter.Height);
+            
+            //generate tile image to target image
             for (int i = 0; i < jsonObject.Count; i++)
             {
                 for (int j = 0; j < jsonObject[i].Count; j++)
@@ -37,11 +107,11 @@ namespace JSYCRM.Common
                         }
                         else
                         {
-                            imgSource = ReadImage(img);
+                            imgSource = ResizeImage(ReadImage(img), imageTileWidth, imageTileHeight);
                             dictImage.Add(img, imgSource);
                         }
                         //build img
-                        imgTarget = CombineImage(imgSource, imgTarget, j * imageHeight, i * imageWidth, color, rotation);
+                        imgTarget = CombineImage(RotateImg(imgSource, rotation, "#" + color), imgTarget, j * imageTileHeight + 70, i * imageTileWidth + 70);
                     }
                 }
             }
@@ -56,12 +126,12 @@ namespace JSYCRM.Common
             return new Bitmap(responseStream);
         }
 
-        public static Bitmap CombineImage(Bitmap imgSource, Bitmap imgTarget, int x, int y, String bgColor, int rotation)
+        public static Bitmap CombineImage(Bitmap imgSource, Bitmap imgTarget, int x, int y)
         {
-            
+
             using (Graphics g = Graphics.FromImage(imgTarget))
             {
-                g.DrawImage(RotateImg(imgSource, rotation, "#" + bgColor), x, y);
+                g.DrawImage(imgSource, x, y);
             }
             return imgTarget;
         }

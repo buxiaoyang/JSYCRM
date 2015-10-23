@@ -18,7 +18,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/12/2014 11:48:42</publishTime>
     </File>
     <File Include="bin/JSYCRM.dll">
-      <publishTime>10/21/2015 13:35:50</publishTime>
+      <publishTime>10/22/2015 17:39:18</publishTime>
     </File>
     <File Include="bin/Microsoft.Web.Infrastructure.dll">
       <publishTime>11/12/2014 11:48:34</publishTime>
@@ -223,6 +223,12 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Images/new.gif">
       <publishTime>11/12/2014 11:45:23</publishTime>
+    </File>
+    <File Include="Images/Print-Save-Footer-Cor.jpg">
+      <publishTime>10/22/2015 16:53:28</publishTime>
+    </File>
+    <File Include="Images/Print-Save-Footer.png">
+      <publishTime>10/22/2015 16:31:41</publishTime>
     </File>
     <File Include="Images/question.png">
       <publishTime>11/12/2014 11:45:23</publishTime>

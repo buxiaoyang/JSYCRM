@@ -17,7 +17,8 @@ namespace JSYCRM.Controllers
         public FileResult Save()
         {
             string jsonString = Request.Form["data"];
-            Bitmap imgTarget = Common.Image.BuildImageFromJsonSource(jsonString);
+            Bitmap imgFooter = new Bitmap(System.IO.Path.Combine(Server.MapPath("~"), "Images", "Print-Save-Footer-Cor.jpg"));
+            Bitmap imgTarget = Common.Image.BuildImageFromJsonSource(jsonString, imgFooter);
             //response image to clent
             Response.AddHeader("Content-Disposition", "attachment; filename=\"Decotal_Tile_Simulator_" + DateTime.Now.ToShortDateString() + ".png\""); 
             MemoryStream stream = new MemoryStream();
@@ -29,7 +30,8 @@ namespace JSYCRM.Controllers
         public ActionResult Print()
         {
             string jsonString = Request.Form["data"];
-            Bitmap imgTarget = Common.Image.BuildImageFromJsonSource(jsonString);
+            Bitmap imgFooter = new Bitmap(System.IO.Path.Combine(Server.MapPath("~"), "Images", "Print-Save-Footer-Cor.jpg"));
+            Bitmap imgTarget = Common.Image.BuildImageFromJsonSource(jsonString, imgFooter);
             MemoryStream stream = new MemoryStream();
             imgTarget.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
             Byte[] bytes = stream.ToArray();
