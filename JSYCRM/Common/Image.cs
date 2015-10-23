@@ -59,31 +59,61 @@ namespace JSYCRM.Common
                 }
             }
             //caculater the image size
+            int tileTableTrHeight = 28;
+            int tileTableTdPadding = 4;
             int imageTileWidth = (imgFooter.Width - 140) / jsonObject.Count;
             int imageTileHeight = imageTileWidth;
             int imageTargetWidth = imgFooter.Width;
-            int imageTargetHeight = imgFooter.Width + imgFooter.Height + 70 + dictTile.Keys.Count * 28;
+            int imageTargetHeight = imgFooter.Width + imgFooter.Height + 70 + dictTile.Keys.Count * tileTableTrHeight;
             //create target image
             Bitmap imgTarget = TransparentToColor(new Bitmap(imageTargetWidth, imageTargetHeight), "#FFFFFF");
             //generate tile table to target image
             using (Graphics g = Graphics.FromImage(imgTarget))
             {
-                Pen pen = new Pen(System.Drawing.ColorTranslator.FromHtml("#3B3E45"));
+                Pen pen = new Pen(System.Drawing.ColorTranslator.FromHtml("#D7D8D8"));
                 pen.Width = 1;
+                Brush textBrush = new SolidBrush(System.Drawing.ColorTranslator.FromHtml("#3B3E45"));
+                Font textFont = new Font(new FontFamily("Arial"),18,FontStyle.Regular,GraphicsUnit.Pixel);
+                Font textFontHeader = new Font(new FontFamily("Arial"), 18, FontStyle.Bold, GraphicsUnit.Pixel);
 
-                //Draw vertical lines          
-                for (int i = 0; i <= dictTile.Keys.Count; i++)
-                {
-                    g.DrawLine(pen, 70, imgFooter.Width + 28 * i, imgFooter.Width - 70, imgFooter.Width + 28 * i);
-                } 
+                List<string> keyList = new List<string>(dictTile.Keys);
+                int xPoint1 = 70;
+                int xPoint2 = (int)(imgFooter.Width/2-100);
+                int xPoint3 = xPoint2 + (int)(imgFooter.Width - 140 - xPoint2)/3;
+                int xPoint4 = xPoint3 + (xPoint3 - xPoint2);
+                int xPoint5 = imgFooter.Width - 70;
+                int yPointStart = imgFooter.Width;
+                int yPointEnd = yPointStart + tileTableTrHeight * (keyList.Count + 1);
+                //Draw vertical lines     
+                //table header
+                g.DrawLine(pen, xPoint1, yPointStart, xPoint5, yPointStart);
 
-                //Draw horizontal lines
-                /*
-                for (int i = 0; i <= dictTile.Keys.Count; i++)
+                g.DrawString("Pattern", textFontHeader, textBrush, xPoint1 + tileTableTdPadding, yPointStart + tileTableTdPadding);
+                g.DrawString("Metal Finish", textFontHeader, textBrush, xPoint2 + tileTableTdPadding, yPointStart + tileTableTdPadding);
+                g.DrawString("Color", textFontHeader, textBrush, xPoint3 + tileTableTdPadding, yPointStart + tileTableTdPadding);
+                g.DrawString("Quantity", textFontHeader, textBrush, xPoint4 + tileTableTdPadding, yPointStart + tileTableTdPadding);
+
+                for (int i = 0; i < keyList.Count; i++)
                 {
-                    g.DrawLine(pen, (i * 28), 0, i * 28, 28 * dictTile.Keys.Count);
+                    int yPoint = yPointStart + tileTableTrHeight * (i + 1);
+                    g.DrawLine(pen, xPoint1, yPoint, xPoint5, yPoint);
+                    Tile tile = dictTile[keyList[i]];
+
+                    g.DrawString(tile.name, textFont, textBrush, xPoint1 + tileTableTdPadding, yPoint + tileTableTdPadding);
+                    g.DrawString(tile.metal, textFont, textBrush, xPoint2 + tileTableTdPadding, yPoint + tileTableTdPadding);
+                    g.DrawString(tile.colorN, textFont, textBrush, xPoint3 + tileTableTdPadding, yPoint + tileTableTdPadding);
+                    g.DrawString(tile.quantity.ToString(), textFont, textBrush, xPoint4 + tileTableTdPadding, yPoint + tileTableTdPadding);
+
+                    Brush brushColor = new SolidBrush(System.Drawing.ColorTranslator.FromHtml("#"+tile.color));
+                    g.FillRectangle(brushColor, xPoint3 + 40, yPoint + tileTableTdPadding, 40, 20);
                 }
-                 * */
+                g.DrawLine(pen, xPoint1, yPointEnd, xPoint5, yPointEnd);
+                //Draw horizontal lines
+                g.DrawLine(pen, xPoint1, yPointStart, xPoint1, yPointEnd);
+                g.DrawLine(pen, xPoint2, yPointStart, xPoint2, yPointEnd);
+                g.DrawLine(pen, xPoint3, yPointStart, xPoint3, yPointEnd);
+                g.DrawLine(pen, xPoint4, yPointStart, xPoint4, yPointEnd);
+                g.DrawLine(pen, xPoint5, yPointStart, xPoint5, yPointEnd);
             }
             //copy footer to target image
             imgTarget = CombineImage(imgFooter, imgTarget, 0, imageTargetHeight - imgFooter.Height);

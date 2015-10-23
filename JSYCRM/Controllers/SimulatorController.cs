@@ -24,6 +24,19 @@ namespace JSYCRM.Controllers
             MemoryStream stream = new MemoryStream();
             imgTarget.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
             Byte[] bytes = stream.ToArray();
+            try
+            {
+                Models.t_simulator model_t_simulator = new Models.t_simulator();
+                model_t_simulator.ID = Guid.NewGuid();
+                model_t_simulator.IP = Request.UserHostAddress;
+                model_t_simulator.BROWSER = Request.Browser.Browser + " " + Request.Browser.MajorVersion;
+                model_t_simulator.LANGUAGE = string.Join(", ", Request.UserLanguages);
+                model_t_simulator.DATA = jsonString;
+                model_t_simulator.OPERATION = "Save";
+                model_t_simulator.CREATED = DateTime.Now;
+                new DAL.t_simulator().Add(model_t_simulator);
+            }
+            catch { }
             return File(bytes, "image/png");
         }
 
@@ -36,6 +49,19 @@ namespace JSYCRM.Controllers
             imgTarget.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
             Byte[] bytes = stream.ToArray();
             ViewData["picture"] = Convert.ToBase64String(bytes);
+            try
+            {
+                Models.t_simulator model_t_simulator = new Models.t_simulator();
+                model_t_simulator.ID = Guid.NewGuid();
+                model_t_simulator.IP = Request.UserHostAddress;
+                model_t_simulator.BROWSER = Request.Browser.Browser + " " + Request.Browser.MajorVersion;
+                model_t_simulator.LANGUAGE = string.Join(", ", Request.UserLanguages);
+                model_t_simulator.DATA = jsonString;
+                model_t_simulator.OPERATION = "Print";
+                model_t_simulator.CREATED = DateTime.Now;
+                new DAL.t_simulator().Add(model_t_simulator);
+            }
+            catch { }
             return View();
         }
 

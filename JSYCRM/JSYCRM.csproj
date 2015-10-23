@@ -167,6 +167,7 @@
     <Compile Include="DAL\m_worker_excel_import.cs" />
     <Compile Include="DAL\m_worker_history.cs" />
     <Compile Include="DAL\NpoiExcel.cs" />
+    <Compile Include="DAL\t_simulator.cs" />
     <Compile Include="DAL\z_company.cs" />
     <Compile Include="DAL\z_menu.cs" />
     <Compile Include="DAL\z_parameter.cs" />
@@ -183,6 +184,7 @@
     <Compile Include="Models\m_return_fee_rule.cs" />
     <Compile Include="Models\m_worker.cs" />
     <Compile Include="Models\m_worker_history.cs" />
+    <Compile Include="Models\t_simulator.cs" />
     <Compile Include="Models\z_company.cs" />
     <Compile Include="Models\z_menu.cs" />
     <Compile Include="Models\z_parameter.cs" />
