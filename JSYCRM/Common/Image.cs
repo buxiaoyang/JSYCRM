@@ -46,7 +46,17 @@ namespace JSYCRM.Common
                         String metal = jsonObject[i][j].Metal.Value;
                         String color = jsonObject[i][j].Color.Value;
                         String colorN = jsonObject[i][j].ColorN.Value;
-                        String key = name + metal + color;
+                        if (name == "PLAIN-GOLD-Tile" || name == "PLAIN-SILVER-Tile")
+                        {
+                            metal = "---";
+                            colorN = "---";
+                            jsonObject[i][j].Color.Value = "FFFFFF";
+                        }
+                        else if (name == "PLAIN-COLOR-Tile")
+                        {
+                            metal = "---";
+                        }
+                        String key = name + metal + colorN;
                         if(dictTile.ContainsKey(key))
                         {
                             dictTile[key].quantity ++;
@@ -77,6 +87,7 @@ namespace JSYCRM.Common
                 Font textFontHeader = new Font(new FontFamily("Arial"), 18, FontStyle.Bold, GraphicsUnit.Pixel);
 
                 List<string> keyList = new List<string>(dictTile.Keys);
+                keyList.Sort();
                 int xPoint1 = 70;
                 int xPoint2 = (int)(imgFooter.Width/2-100);
                 int xPoint3 = xPoint2 + (int)(imgFooter.Width - 140 - xPoint2)/3;
@@ -103,9 +114,11 @@ namespace JSYCRM.Common
                     g.DrawString(tile.metal, textFont, textBrush, xPoint2 + tileTableTdPadding, yPoint + tileTableTdPadding);
                     g.DrawString(tile.colorN, textFont, textBrush, xPoint3 + tileTableTdPadding, yPoint + tileTableTdPadding);
                     g.DrawString(tile.quantity.ToString(), textFont, textBrush, xPoint4 + tileTableTdPadding, yPoint + tileTableTdPadding);
-
-                    Brush brushColor = new SolidBrush(System.Drawing.ColorTranslator.FromHtml("#"+tile.color));
-                    g.FillRectangle(brushColor, xPoint3 + 40, yPoint + tileTableTdPadding, 40, 20);
+                    if(tile.colorN != "---")
+                    {
+                        Brush brushColor = new SolidBrush(System.Drawing.ColorTranslator.FromHtml("#" + tile.color));
+                        g.FillRectangle(brushColor, xPoint3 + 40, yPoint + tileTableTdPadding, 40, 20);
+                    }
                 }
                 g.DrawLine(pen, xPoint1, yPointEnd, xPoint5, yPointEnd);
                 //Draw horizontal lines
