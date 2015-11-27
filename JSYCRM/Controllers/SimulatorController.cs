@@ -37,6 +37,7 @@ namespace JSYCRM.Controllers
                 new DAL.t_simulator().Add(model_t_simulator);
             }
             catch { }
+            imgFooter.Dispose();
             return File(bytes, "image/png");
         }
 
@@ -62,6 +63,7 @@ namespace JSYCRM.Controllers
                 new DAL.t_simulator().Add(model_t_simulator);
             }
             catch { }
+            imgFooter.Dispose();
             return View();
         }
 
